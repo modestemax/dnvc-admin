@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "filieres",
+  "info": {
+    "name": "Filiere"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    }
+  }
+}

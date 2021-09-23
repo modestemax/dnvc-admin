@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alertes",
+  "info": {
+    "name": "Alerte",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Type": {
+      "type": "enumeration",
+      "enum": [
+        "Opportunity",
+        "Threat",
+        "Weak"
+      ]
+    },
+    "filieres": {
+      "collection": "filiere"
+    },
+    "Description": {
+      "type": "richtext"
+    }
+  }
+}
