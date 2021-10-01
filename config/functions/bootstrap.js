@@ -11,10 +11,14 @@
  */
 
 module.exports = () => {
-  strapi.admin.services.permission.conditionProvider.register({
-    displayName: 'Billing amount under 10K',
-    name: 'billing-amount-under-10k',
-    plugin: 'admin',
-    handler: {amount: {$lt: 10000}},
-  });
+  // strapi.admin.services.permission.conditionProvider.register({
+  //   displayName: 'Billing amount under 10K',
+  //   name: 'billing-amount-under-10k',
+  //   plugin: 'admin',
+  //   handler: {amount: {$lt: 10000}},
+  // });
+  //
+  // console.log( 'strapi.config')
+  // strapi.config.connections.default2=JSON.parse(JSON.stringify( strapi.config.connections.default))
+  // console.log( strapi.config.connections)
 };
