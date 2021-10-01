@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "institutions",
+  "info": {
+    "name": "Institution",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nom": {
+      "type": "string"
+    },
+    "Logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "Adresse": {
+      "type": "string"
+    },
+    "TitreDuResponsable": {
+      "type": "string"
+    },
+    "PrenomDuResponsable": {
+      "type": "string"
+    },
+    "NomDuResponsable": {
+      "type": "string"
+    },
+    "Administrateur": {
+      "type": "component",
+      "repeatable": true,
+      "component": "person-data.person"
+    },
+    "AvatarDuResponsable": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    }
+  }
+}

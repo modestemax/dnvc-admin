@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_person_data_people",
+  "info": {
+    "name": "Person",
+    "icon": "address-book"
+  },
+  "options": {},
+  "attributes": {
+    "Titre": {
+      "type": "string"
+    },
+    "Nom": {
+      "type": "string"
+    },
+    "Prenom": {
+      "type": "string"
+    },
+    "Fontion": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "email"
+    },
+    "Avatar": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "Phone": {
+      "type": "string"
+    }
+  }
+}

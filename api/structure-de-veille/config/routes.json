@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/structure-de-veilles",
+      "handler": "structure-de-veille.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/structure-de-veilles/count",
+      "handler": "structure-de-veille.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/structure-de-veilles/:id",
+      "handler": "structure-de-veille.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/structure-de-veilles",
+      "handler": "structure-de-veille.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/structure-de-veilles/:id",
+      "handler": "structure-de-veille.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/structure-de-veilles/:id",
+      "handler": "structure-de-veille.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

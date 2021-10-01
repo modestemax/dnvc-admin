@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "themes_de_veilles",
+  "info": {
+    "name": "Themes de veille"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nom": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "text"
+    }
+  }
+}

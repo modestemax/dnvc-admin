@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "structure_de_veilles",
+  "info": {
+    "name": "Structure de veille",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "NomStructure": {
+      "type": "string"
+    },
+    "Logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "Adresse": {
+      "type": "string"
+    },
+    "Ville": {
+      "type": "string"
+    },
+    "Pays": {
+      "type": "string"
+    },
+    "PointFocal": {
+      "type": "component",
+      "repeatable": true,
+      "component": "point-focal.focus"
+    }
+  }
+}

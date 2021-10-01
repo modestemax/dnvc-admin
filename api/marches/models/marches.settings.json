@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "marches",
+  "info": {
+    "name": "Marches"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nom": {
+      "type": "string"
+    },
+    "Logo_Large": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "Logo_Mini": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "Intro": {
+      "type": "text"
+    },
+    "DateMAJ": {
+      "type": "date"
+    }
+  }
+}

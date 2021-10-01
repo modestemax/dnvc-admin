@@ -1,0 +1,99 @@
+{
+  "kind": "collectionType",
+  "collectionName": "notes_de_veilles",
+  "info": {
+    "name": "Notes de veilles",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "Title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "Type": {
+      "type": "enumeration",
+      "enum": [
+        "Opportunity",
+        "Threat",
+        "Weak"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "Resume": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "DateSoumission": {
+      "type": "date",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "DatePublication": {
+      "type": "date",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "Emetteur": {
+      "model": "structure-de-veille"
+    },
+    "Marches": {
+      "collection": "marches"
+    },
+    "SourceFile": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "SourceUrl": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "Filieres": {
+      "collection": "filiere"
+    },
+    "themes_de_veille": {
+      "model": "themes-de-veille"
+    }
+  }
+}

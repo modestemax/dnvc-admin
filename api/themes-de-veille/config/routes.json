@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/themes-de-veilles",
+      "handler": "themes-de-veille.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/themes-de-veilles/count",
+      "handler": "themes-de-veille.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/themes-de-veilles/:id",
+      "handler": "themes-de-veille.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/themes-de-veilles",
+      "handler": "themes-de-veille.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/themes-de-veilles/:id",
+      "handler": "themes-de-veille.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/themes-de-veilles/:id",
+      "handler": "themes-de-veille.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
