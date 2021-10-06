@@ -11,10 +11,10 @@
  */
 
 module.exports = () => {
-  // strapi.admin.services.permission.conditionProvider.register({
+  // strapi.admin1.services.permission.conditionProvider.register({
   //   displayName: 'Billing amount under 10K',
   //   name: 'billing-amount-under-10k',
-  //   plugin: 'admin',
+  //   plugin: 'admin1',
   //   handler: {amount: {$lt: 10000}},
   // });
   //
