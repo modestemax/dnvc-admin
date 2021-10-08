@@ -1,9 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "marches",
+  "collectionName": "emails",
   "info": {
-    "name": "Marches",
-    "description": ""
+    "name": "Emails"
   },
   "options": {
     "increments": true,
@@ -12,34 +11,40 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Nom": {
+    "from": {
       "type": "string"
     },
-    "Logo_Large": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
+    "replyTo": {
+      "type": "string"
     },
-    "Logo_Mini": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
+    "to": {
+      "type": "string"
     },
-    "Intro": {
+    "cc": {
+      "type": "string"
+    },
+    "bcc": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "html": {
       "type": "text"
     },
-    "DateMAJ": {
-      "type": "date"
+    "text": {
+      "type": "text"
+    },
+    "attachments": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }
