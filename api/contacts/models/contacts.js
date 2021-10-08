@@ -12,8 +12,7 @@ module.exports = {
       console.log(' SENDGRID_API_KEY ', process.env.SENDGRID_API_KEY);
       console.log(' date ', data);
       debugger
-      await strapi.plugins.email.services.email.send({
-        "personalizations": [{
+      strapi.services.activation.send( {
           "to": [{
             "email": data.Email,
             "name": data.Nom
@@ -21,10 +20,7 @@ module.exports = {
           "dynamic_template_data":{
             "email":data.Email,
           }
-        }],
-        "template_id": "d-e41972b1532a49d0be76167df96711b7",
       });
-
     },
   }
 };
