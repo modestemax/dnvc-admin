@@ -12,5 +12,16 @@ module.exports = ({ env }) => ({
       delete: {},
     },
   },
+  email: {
+    provider: 'sendgrid',
+    providerOptions: {
+      apiKey: env('SENDGRID_API_KEY'),
+    },
+    settings: {
+      defaultFrom: 'nana@neema.co.za',
+      defaultReplyTo: 'nana@neema.co.za',
+      testAddress: 'nana@neema.co.za',
+    },
+  },
   // ...
 });
