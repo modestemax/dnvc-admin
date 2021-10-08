@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contacts",
+  "info": {
+    "name": "Contacts",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nom": {
+      "type": "string"
+    },
+    "Prenom": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "email"
+    },
+    "Telephone": {
+      "type": "string"
+    },
+    "filieres": {
+      "collection": "filiere"
+    },
+    "marches": {
+      "collection": "marches"
+    },
+    "alertes": {
+      "collection": "alerte"
+    },
+    "Etat": {
+      "type": "enumeration",
+      "enum": [
+        "Actif",
+        "Inactif"
+      ]
+    }
+  }
+}
