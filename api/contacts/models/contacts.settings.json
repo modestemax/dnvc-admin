@@ -30,15 +30,25 @@
     "marches": {
       "collection": "marches"
     },
-    "alertes": {
-      "collection": "alerte"
-    },
     "Etat": {
       "type": "enumeration",
       "enum": [
         "Actif",
         "Inactif"
-      ]
+      ],
+      "default": "Inactif"
+    },
+    "activation_code": {
+      "type": "uid",
+      "private": true
+    },
+    "themes_de_veilles": {
+      "collection": "themes-de-veille"
+    },
+    "criteres": {
+      "type": "component",
+      "repeatable": true,
+      "component": "criteria.alert-criterion"
     }
   }
 }

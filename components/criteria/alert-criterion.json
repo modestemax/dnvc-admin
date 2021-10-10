@@ -1,0 +1,19 @@
+{
+  "collectionName": "alert_criteria",
+  "info": {
+    "name": "alert_criterion",
+    "icon": "ad"
+  },
+  "options": {},
+  "attributes": {
+    "marches": {
+      "collection": "marches"
+    },
+    "filieres": {
+      "collection": "filiere"
+    },
+    "themes_de_veilles": {
+      "collection": "themes-de-veille"
+    }
+  }
+}

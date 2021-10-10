@@ -5,4 +5,15 @@
  * to customize this model
  */
 
-module.exports = {};
+module.exports = {
+  lifecycles: {
+    async afterCreate(result, data) {
+      console.log(result, data)
+      debugger
+    },
+    async afterUpdate(result, data) {
+      console.log(result, data)
+      debugger
+    }
+  }
+};
