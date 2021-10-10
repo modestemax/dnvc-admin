@@ -4,7 +4,6 @@
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#lifecycle-hooks)
  * to customize this model
  */
-const {isDraft} = require('strapi-utils').contentTypes;
 const {randomUUID} = require('crypto'); // Added in: node v14.17.0
 const uuid = require('uuid');
 
