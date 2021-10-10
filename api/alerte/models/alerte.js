@@ -12,11 +12,11 @@ module.exports = {
       console.log(result, data)
       debugger
     },
-    async afterUpdate(result, data) {
-      console.log(result, data)
+    async afterUpdate(data) {
+      console.log(data)
       debugger
-      if (!isDraft(result, strapi.models.alerte)) {
-        let {Marches, Filieres, themes_de_veille} = result
+      if (!isDraft(data, strapi.models.alerte)) {
+        let {Marches, Filieres, themes_de_veille} = data
         Marches = !Marches.length ? [null] : Marches.map(m => m.id)
         Filieres = !Filieres.length ? [null] : Filieres.map(m => m.id)
         themes_de_veille = !themes_de_veille ? null : themes_de_veille.id
@@ -40,7 +40,7 @@ module.exports = {
         `
         let contacts = await strapi.connections.default.raw(query)
 
-        strapi.services.alerte.publish(result, contacts);
+        strapi.services.alerte.publish(data, contacts);
 
       }
     }

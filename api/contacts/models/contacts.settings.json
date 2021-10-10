@@ -8,7 +8,7 @@
   "options": {
     "increments": true,
     "timestamps": true,
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -24,12 +24,6 @@
     "Telephone": {
       "type": "string"
     },
-    "filieres": {
-      "collection": "filiere"
-    },
-    "marches": {
-      "collection": "marches"
-    },
     "Etat": {
       "type": "enumeration",
       "enum": [
@@ -41,9 +35,6 @@
     "activation_code": {
       "type": "uid",
       "private": true
-    },
-    "themes_de_veilles": {
-      "collection": "themes-de-veille"
     },
     "criteres": {
       "type": "component",
