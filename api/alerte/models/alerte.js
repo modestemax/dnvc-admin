@@ -16,27 +16,43 @@ module.exports = {
       console.log(data)
       debugger
       if (!isDraft(data, strapi.models.alerte)) {
-        let {Marches, Filieres, themes_de_veille} = data
-        Marches = !Marches.length ? [null] : Marches.map(m => m.id)
-        Filieres = !Filieres.length ? [null] : Filieres.map(m => m.id)
-        themes_de_veille = !themes_de_veille ? null : themes_de_veille.id
-        let conditions = []
-        Marches.forEach(m => Filieres.forEach(f => {
+        const {Marches, Filieres, themes_de_veille} = data
+        const marcheIds = !Marches.length ? [null] : Marches.map(m => m.id)
+        const filiereIds = !Filieres.length ? [null] : Filieres.map(m => m.id)
+        const themeId = !themes_de_veille ? null : themes_de_veille.id
+        const conditions = []
+
+        marcheIds.forEach(march_id => filiereIds.forEach(filiere_id => {
           let cond = []
-          if (m) cond.push('m.march_id=' + m)
-          if (f) cond.push('f.filiere_id=' + f)
-          if (themes_de_veille) cond.push('t."themes-de-veille_id"=' + f)
-          conditions.push('(' + cond.join(' AND ') + ')')
+          if (march_id) cond.push('m.id=' + march_id)
+          if (filiere_id) cond.push('f.id=' + filiere_id)
+          if (themes_de_veille) cond.push('t.id=' + themeId)
+          cond.length && conditions.push('(' + cond.join(' AND ') + ')')
         }))
 
         let query = `
-          SELECT c.*, cc.contact_id, f.alert_criterion_id, f.filiere_id, m.march_id, t."themes-de-veille_id"
-          FROM alert_criteria__filieres f
-                 left JOIN alert_criteria__marches m on m.alert_criterion_id = f.alert_criterion_id
-                 left JOIN alert_criteria__themes_de_veilles t on t.alert_criterion_id = m.alert_criterion_id
-                 JOIN contacts_components cc on m.alert_criterion_id = cc.component_id
-                 join contacts c on c.id = cc.contact_id
-          WHERE ${conditions.join(' OR ')}
+          SELECT cc.contact_id,
+                 c.NOM,
+                 PRENOM,
+                 EMAIL,
+                 acf.filiere_id,
+                 f.Name filiere_nom,
+                 acm.march_id,
+                 m.Nom  marche_nom,
+                 act."themes-de-veille_id",
+                 t.Nom  theme_nom
+          FROM contacts_components cc
+                 left join alert_criteria__filieres acf on cc.component_id = acf.alert_criterion_id
+                 left join filieres f on acf.filiere_id = f.id
+                 left join alert_criteria__marches acm on cc.component_id = acm.alert_criterion_id
+                 left join marches m on acm.march_id = m.id
+                 left join alert_criteria__themes act on cc.component_id = act.alert_criterion_id
+                 left join themes_de_veilles t on act."themes-de-veille_id" = t.id
+                 inner join contacts c on c.id = cc.contact_id
+
+          WHERE ${conditions.join(' OR ') || false}
+          order by cc.contact_id
+
         `
         let contacts = await strapi.connections.default.raw(query)
 
