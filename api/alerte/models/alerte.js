@@ -24,10 +24,10 @@ module.exports = {
 
         marcheIds.forEach(march_id => filiereIds.forEach(filiere_id => {
           let cond = []
-          if (march_id) cond.push('m.id=' + march_id)
-          if (filiere_id) cond.push('f.id=' + filiere_id)
-          if (themes_de_veille) cond.push('t.id=' + themeId)
-          cond.length && conditions.push('(' + cond.join(' AND ') + ')')
+          march_id ? cond.push('m.id=' + march_id) : cond.push('m.id is null')
+          filiere_id ? cond.push('f.id=' + filiere_id) : cond.push('f.id is null ')
+          themeId ? cond.push('t.id=' + themeId) : cond.push('t.id is null')
+          conditions.push('(' + cond.join(' AND ') + ')')
         }))
 
         let query = `
@@ -52,11 +52,12 @@ module.exports = {
 
           WHERE ${conditions.join(' OR ') || false}
           order by cc.contact_id
-
         `
-        let contacts = await strapi.connections.default.raw(query)
 
-        strapi.services.alerte.publish(data, contacts);
+        console.log('query = ', query)
+        let contacts = await strapi.connections.default.raw(query)
+        console.log('contacts = ', contacts)
+        contacts.length && strapi.services.alerte.publish(data, contacts);
 
       }
     }

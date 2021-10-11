@@ -7,12 +7,20 @@
 
 module.exports = {
 
-  async publish(alert, contacts) {
+  async publish_sendgrid(alert, contacts) {
     await strapi.services.email.send({
       to: contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`})),
       dynamic_template_data: {},
       template_id: process.env.CONTACT_ACTIVATION_REQUEST_EMAIL_TEMPLATE_ID,
     });
+  },
+
+  async publish(alert, contacts) {
+    await strapi.plugins.email.services
+      .email.send({
+        to: contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`})),
+        subject: alert.Title, text: alert.Resume, html: alert.Resume
+      });
   }
 
 };
