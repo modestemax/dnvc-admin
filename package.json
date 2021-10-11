@@ -11,7 +11,6 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "knex": "0.21.18",
     "pg": "^8.7.1",
