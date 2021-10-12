@@ -16,11 +16,17 @@ module.exports = {
   },
 
   async publish(alert, contacts) {
-    await strapi.plugins.email.services
-      .email.send({
-        to: contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`})),
-        subject: alert.Title, text: alert.Resume, html: alert.Resume
-      });
+    try {
+      console.log('sending email to ',contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`})))
+      await strapi.plugins.email.services
+        .email.send({
+          to: contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`})),
+          subject: alert.Title, text: alert.Resume, html: alert.Resume
+        });
+    } catch (ex) {
+      console.log('email error ', ex)
+    }
+
   }
 
 };
