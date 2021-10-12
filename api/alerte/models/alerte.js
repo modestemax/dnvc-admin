@@ -31,7 +31,8 @@ module.exports = {
         }))
 
         let query = `
-          SELECT cc.contact_id,  c.*,
+          SELECT cc.contact_id,
+                 c.*,
                  acf.filiere_id,
                  f."Name" filiere_nom,
                  acm.march_id,
@@ -53,6 +54,7 @@ module.exports = {
 
         console.log('query = ', query)
         let contacts = await strapi.connections.default.raw(query)
+        contacts = contacts.rows || contacts
         console.log('contacts = ', contacts)
         contacts.length && strapi.services.alerte.publish(data, contacts);
 
