@@ -31,16 +31,13 @@ module.exports = {
         }))
 
         let query = `
-          SELECT cc.contact_id,
-                 c.NOM,
-                 PRENOM,
-                 EMAIL,
+          SELECT cc.contact_id,  c.*,
                  acf.filiere_id,
-                 f.Name filiere_nom,
+                 f."Name" filiere_nom,
                  acm.march_id,
-                 m.Nom  marche_nom,
+                 m."Nom"  marche_nom,
                  act."themes-de-veille_id",
-                 t.Nom  theme_nom
+                 t."Nom"  theme_nom
           FROM contacts_components cc
                  left join alert_criteria__filieres acf on cc.component_id = acf.alert_criterion_id
                  left join filieres f on acf.filiere_id = f.id
