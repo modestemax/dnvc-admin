@@ -28,11 +28,18 @@ module.exports = {
             text: alert.Resume,
             html: alert.Resume
           });
+        console.log('mail sent to ', to1)
+        await sleep(1e3)
       } catch (ex) {
         console.log('email error ', ex)
       }
     }
 
+    function sleep(ms) {
+      return new Promise(resolve => {
+        setTimeout(resolve, ms)
+      })
+    }
 
   }
 
