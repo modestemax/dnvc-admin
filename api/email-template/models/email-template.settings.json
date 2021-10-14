@@ -2,57 +2,29 @@
   "kind": "collectionType",
   "collectionName": "email_templates",
   "info": {
-    "name": "Email Template"
+    "name": "Email Template",
+    "description": ""
   },
   "options": {
     "increments": true,
     "timestamps": true,
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": true
-    }
-  },
+
   "attributes": {
     "from": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
       "type": "email"
     },
     "reply_to": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
       "type": "email"
     },
     "subject": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
       "type": "string"
     },
     "html": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
       "type": "richtext"
     },
     "text": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
       "type": "text"
     },
     "attachments": {
@@ -64,12 +36,16 @@
         "videos"
       ],
       "plugin": "upload",
-      "required": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
+      "required": false
       }
+    },
+    "Name": {
+      "type": "string"
+    },
+    "api_name": {
+      "type": "string",
+      "unique": true,
+      "required": true,
+      "regex": "\\w+"
     }
   }
-}

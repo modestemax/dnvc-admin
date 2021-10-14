@@ -16,31 +16,30 @@ module.exports = {
   },
 
   async publish(alert, contacts) {
+    debugger
+    const emailTemplateModel = strapi.models["email-template"]
+
+    const etpl = (await emailTemplateModel.where('api_name', 'alerte').fetch()).toJSON();
 
     const to = contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`}));
     console.log('sending email to ', to)
     for (const to1 of to) {
       try {
         await strapi.plugins.email.services
-          .email.send({
-            to: [to1],
-            subject: alert.Title,
-            text: alert.Resume,
-            html: alert.Resume
-          });
+          .email.sendTemplatedEmail(
+            {to: to1},
+            {emailTemplate: etpl.html},
+            {data: {}}
+          )
+
         console.log('mail sent to ', to1)
-        await sleep(1e3)
-      } catch (ex) {
+      } catch
+        (ex) {
         console.log('email error ', ex)
       }
     }
 
-    function sleep(ms) {
-      return new Promise(resolve => {
-        setTimeout(resolve, ms)
-      })
-    }
-
   }
 
-};
+}
+;
