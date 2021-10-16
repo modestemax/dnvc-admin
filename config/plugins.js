@@ -14,10 +14,10 @@ module.exports = ({ env }) => ({
       delete: {},
     },
   },
-  email_: {
+  email: {
     provider: 'nodemailer',
     providerOptions: {
-      host: env('SMTP_HOST', 'smtp.example.com'),
+      host: env('SMTP_HOST', 'smtppro.zoho.com'),
       port: env('SMTP_PORT', 587),
       auth: {
         user: env('SMTP_USERNAME'),
@@ -26,11 +26,11 @@ module.exports = ({ env }) => ({
       // ... any custom nodemailer options
     },
     settings: {
-      defaultFrom:env('EMAIL_DEFAULT_FROM', 'hello@example.com'),
-      defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO','hello@example.com'),
+      defaultFrom:env('EMAIL_DEFAULT_FROM'),
+      defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO'),
     },
   },
-  email: {
+  email_: {
     provider: 'sendgrid',
     providerOptions: {
       apiKey: env('SENDGRID_API_KEY'),

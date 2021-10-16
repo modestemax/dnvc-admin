@@ -27,14 +27,13 @@ module.exports = {
       try {
         await strapi.plugins.email.services
           .email.sendTemplatedEmail(
-            {to: to1},
-            {emailTemplate: etpl.html},
-            {data: {}}
+            {to: to1.email},
+            {subject:etpl.subject,html: etpl.html,text:etpl.text},
+            {alert}
           )
 
         console.log('mail sent to ', to1)
-      } catch
-        (ex) {
+      } catch(ex) {
         console.log('email error ', ex)
       }
     }

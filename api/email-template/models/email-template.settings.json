@@ -36,11 +36,12 @@
         "videos"
       ],
       "plugin": "upload",
-      "required": false
-      }
+      "required": false,
+      "pluginOptions": {}
     },
-    "Name": {
-      "type": "string"
+    "name": {
+      "type": "string",
+      "required": true
     },
     "api_name": {
       "type": "string",
@@ -49,3 +50,4 @@
       "regex": "\\w+"
     }
   }
+}
