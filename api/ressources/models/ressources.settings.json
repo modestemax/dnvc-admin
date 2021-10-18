@@ -30,10 +30,10 @@
     "marche": {
       "model": "marches"
     },
-    "sourceUrl": {
+    "SourceUrl": {
       "type": "string"
     },
-    "sourceFile": {
+    "SourceFile": {
       "collection": "file",
       "via": "related",
       "allowedTypes": [
