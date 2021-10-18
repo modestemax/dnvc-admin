@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ressources",
+  "info": {
+    "name": "Ressources",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titre": {
+      "type": "string"
+    },
+    "resume": {
+      "type": "text"
+    },
+    "filieres": {
+      "collection": "filiere"
+    },
+    "themes_de_veille": {
+      "model": "themes-de-veille"
+    },
+    "marche": {
+      "model": "marches"
+    },
+    "SourceUrl": {
+      "type": "string"
+    },
+    "SourceFile": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "date_debut": {
+      "type": "date"
+    },
+    "date_fin": {
+      "type": "date"
+    }
+  }
+}
