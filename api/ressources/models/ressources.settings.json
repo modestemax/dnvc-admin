@@ -18,9 +18,6 @@
     "resume": {
       "type": "text"
     },
-    "date": {
-      "type": "date"
-    },
     "filieres": {
       "collection": "filiere"
     },
@@ -30,10 +27,10 @@
     "marche": {
       "model": "marches"
     },
-    "sourceUrl": {
+    "SourceUrl": {
       "type": "string"
     },
-    "sourceFile": {
+    "SourceFile": {
       "collection": "file",
       "via": "related",
       "allowedTypes": [
@@ -42,6 +39,12 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "date_debut": {
+      "type": "date"
+    },
+    "date_fin": {
+      "type": "date"
     }
   }
 }
