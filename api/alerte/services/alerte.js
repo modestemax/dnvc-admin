@@ -20,24 +20,24 @@ module.exports = {
     const emailTemplateModel = strapi.models["email-template"]
 
     const etpl = (await emailTemplateModel.where('api_name', 'alerte').fetch()).toJSON();
+    if (etpl) {
+      const to = contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`}));
+      console.log('sending email to ', to)
+      for (const to1 of to) {
+        try {
+          await strapi.plugins.email.services
+            .email.sendTemplatedEmail(
+              {to: to1.email},
+              {subject: etpl.subject, html: etpl.html, text: etpl.text},
+              {alert}
+            )
 
-    const to = contacts.map(c => ({email: c.Email, name: `${c.Nom} ${c.Prenom}`}));
-    console.log('sending email to ', to)
-    for (const to1 of to) {
-      try {
-        await strapi.plugins.email.services
-          .email.sendTemplatedEmail(
-            {to: to1.email},
-            {subject:etpl.subject,html: etpl.html,text:etpl.text},
-            {alert}
-          )
-
-        console.log('mail sent to ', to1)
-      } catch(ex) {
-        console.log('email error ', ex)
+          console.log('mail sent to ', to1)
+        } catch (ex) {
+          console.log('email error ', ex)
+        }
       }
     }
-
   }
 
 }
