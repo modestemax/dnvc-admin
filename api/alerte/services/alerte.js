@@ -32,7 +32,7 @@ module.exports = {
                 alert.SourceUrl ? {href: alert.SourceUrl} : void 0
               ].reduce((attachments, attach) => attach ? [...attachments, attach] : attachments, [])
             },
-            {subject: etpl.subject, html: etpl.html, text: etpl.text},
+            {subject: alert.Title, html: etpl.html, text: etpl.text},
             {alert}
           )
 
