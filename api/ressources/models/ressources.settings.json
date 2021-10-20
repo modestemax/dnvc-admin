@@ -21,7 +21,7 @@
     "filieres": {
       "collection": "filiere"
     },
-    "themes_de_veille": {
+    "theme": {
       "model": "themes-de-veille"
     },
     "marche": {
