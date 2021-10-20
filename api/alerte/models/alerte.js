@@ -12,7 +12,7 @@ module.exports = {
       console.log(result, data)
     },
     async afterUpdate(data) {
-      console.log(data)
+      console.log('alert',data)
       debugger
       if (!isDraft(data, strapi.models.alerte)) {
         const {Marches, Filieres, themes_de_veille} = data
@@ -50,7 +50,6 @@ module.exports = {
           WHERE ${conditions.join(' OR ') || false}
           order by cc.contact_id
         `
-
         console.log('query = ', query)
         let contacts = await strapi.connections.default.raw(query)
         contacts = contacts.rows || contacts

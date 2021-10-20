@@ -25,7 +25,13 @@ module.exports = {
         try {
           strapi.plugins.email.services
             .email.sendTemplatedEmail(
-            {to: to1.email},
+            {
+              to: to1.email,
+              attachments: [
+                alert.SourceFile[0]?.url ? {href: alert.SourceFile[0]?.url} : void 0,
+                alert.SourceUrl ? {href: alert.SourceUrl} : void 0
+              ].reduce((attachments, attach) => attach ? [...attachments, attach] : attachments, [])
+            },
             {subject: etpl.subject, html: etpl.html, text: etpl.text},
             {alert}
           )
