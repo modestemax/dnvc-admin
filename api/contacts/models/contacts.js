@@ -9,14 +9,20 @@ const uuid = require('uuid');
 
 module.exports = {
   lifecycles: {
-    async beforeUpdate(params, data) {debugger
-    },
-    async afterUpdate(params, data) {debugger
-    },
+    async beforeUpdate(params, data) {    },
+    async afterUpdate(params, data) {    },
     beforeCreate(data) {
       data.activation_code = uuid()
     },
     async afterCreate(result, data) {
+      console.log(' date ', data);
+     //debugger
+      strapi.services.contacts.sendActivationRequest({
+        "to": data.Email,
+        data
+      });
+    },
+    async afterCreate_sendgrid(result, data) {
       console.log(' SENDGRID_API_KEY ', process.env.SENDGRID_API_KEY);
       console.log(' date ', data);
       debugger

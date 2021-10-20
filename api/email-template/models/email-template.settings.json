@@ -12,14 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "from": {
-      "pluginOptions": {},
-      "type": "email"
-    },
-    "reply_to": {
-      "pluginOptions": {},
-      "type": "email"
-    },
     "subject": {
       "pluginOptions": {},
       "type": "string"
