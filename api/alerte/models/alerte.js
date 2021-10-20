@@ -10,7 +10,6 @@ module.exports = {
   lifecycles: {
     async afterCreate(result, data) {
       console.log(result, data)
-      debugger
     },
     async afterUpdate(data) {
       console.log(data)
