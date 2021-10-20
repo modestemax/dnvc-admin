@@ -1,8 +1,19 @@
 //https://nodemailer.com/message/attachments/
 
-module.exports = ({ env }) => ({
+module.exports = ({env}) => ({
   // ...
   upload: {
+    provider: 'aws-s3',
+    providerOptions: {
+      accessKeyId: env('AWS_ACCESS_KEY_ID'),
+      secretAccessKey: env('AWS_ACCESS_SECRET'),
+      region: env('AWS_REGION'),
+      params: {
+        Bucket: env('AWS_BUCKET'),
+      },
+    },
+  },
+  upload_: {
     provider: 'cloudinary',
     providerOptions: {
       cloud_name: env('CLOUDINARY_NAME'),
@@ -26,7 +37,7 @@ module.exports = ({ env }) => ({
       // ... any custom nodemailer options
     },
     settings: {
-      defaultFrom:env('EMAIL_DEFAULT_FROM'),
+      defaultFrom: env('EMAIL_DEFAULT_FROM'),
       defaultReplyTo: env('EMAIL_DEFAULT_REPLY_TO'),
     },
   },
