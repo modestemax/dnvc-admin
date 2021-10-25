@@ -12,7 +12,7 @@ module.exports = {
       console.log(result, data)
     },
     async afterUpdate(data) {
-      console.log('alert',data)
+      console.log('alert', data)
       debugger
       if (!isDraft(data, strapi.models.alerte)) {
         const {Marches, Filieres, themes_de_veille} = data
@@ -23,10 +23,11 @@ module.exports = {
 
         marcheIds.forEach(march_id => filiereIds.forEach(filiere_id => {
           let cond = []
-          march_id ? cond.push('m.id=' + march_id) : cond.push('m.id is null')
-          filiere_id ? cond.push('f.id=' + filiere_id) : cond.push('f.id is null ')
-          themeId ? cond.push('t.id=' + themeId) : cond.push('t.id is null')
-          conditions.push('(' + cond.join(' AND ') + ')')
+          march_id ? cond.push('m.id=' + march_id) : cond.push('true')// cond.push('m.id is null')
+          filiere_id ? cond.push('f.id=' + filiere_id) : cond.push('true')//cond.push('f.id is null ')
+          themeId ? cond.push('t.id=' + themeId) : cond.push('true')// cond.push('t.id is null')
+          if (march_id || filiere_id || themeId)
+            conditions.push('(' + cond.join(' AND ') + ')')
         }))
 
         let query = `
