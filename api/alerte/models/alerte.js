@@ -8,8 +8,11 @@ const {isDraft} = require('strapi-utils').contentTypes;
 
 module.exports = {
   lifecycles: {
-    async afterCreate(result, data) {
-      console.log(result, data)
+    async beforeCreate(data) {
+      console.log(data)
+      const {Marches, Filieres, themes_de_veille} = data
+      if (!Marches?.length && !Filieres?.length && !themes_de_veille)
+        throw strapi.errors.badRequest('Bien vouloir renseigner aumoins un marché/Filiere/theme de veille');
     },
     async afterUpdate(data) {
       console.log('alert', data)

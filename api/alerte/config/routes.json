@@ -29,7 +29,7 @@
       "path": "/alertes",
       "handler": "alerte.create",
       "config": {
-        "policies": []
+        "policies": ["has-at-least-one-criteria"]
       }
     },
     {
@@ -37,7 +37,7 @@
       "path": "/alertes/:id",
       "handler": "alerte.update",
       "config": {
-        "policies": []
+        "policies": ["has-at-least-one-criteria"]
       }
     },
     {
