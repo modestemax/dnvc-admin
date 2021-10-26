@@ -23,14 +23,19 @@ module.exports = {
       console.log('sending email to ', to)
       for (const to1 of to) {
         try {
+          if (alert.SourceUrl) {
+            //FR: Ouvrir le document source
+            // EN: View full details
+            alert.sourceUrlTag = `<a href="${alert.SourceUrl}">View full details / Ouvrir le document source</a>`
+            alert.html += `<br/><%=alert.sourceUrlTag%>`
+          }
+
           strapi.plugins.email.services
             .email.sendTemplatedEmail(
             {
               to: to1.email,
-              attachments: [
-                alert.SourceFile[0]?.url ? {href: alert.SourceFile[0]?.url} : void 0,
-                alert.SourceUrl ? {href: alert.SourceUrl} : void 0
-              ].reduce((attachments, attach) => attach ? [...attachments, attach] : attachments, [])
+              attachments: alert.SourceFile[0]?.url ? [{href: alert.SourceFile[0]?.url}] : []
+              // .reduce((attachments, attach) => attach ? [...attachments, attach] : attachments, [])
             },
             {subject: alert.Title, html: etpl.html, text: etpl.text},
             {alert}
