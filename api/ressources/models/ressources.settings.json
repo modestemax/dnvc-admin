@@ -21,7 +21,7 @@
     "filieres": {
       "collection": "filiere"
     },
-    "theme": {
+    "themes_de_veille": {
       "model": "themes-de-veille"
     },
     "marche": {
@@ -40,11 +40,18 @@
       "required": false,
       "pluginOptions": {}
     },
-    "date_debut": {
+    "date": {
       "type": "date"
     },
-    "date_fin": {
-      "type": "date"
+    "photo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }
