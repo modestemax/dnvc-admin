@@ -50,7 +50,7 @@ module.exports = {
   },
 
   checkMandatoryField(data) {
-    console.log(data)
+    console.log('checkMandatoryField on ',data)
     const {Marches, Filieres, themes_de_veille, Emetteur} = data
     if (!Marches?.length && !Filieres?.length && !themes_de_veille)
       throw strapi.errors.badRequest('Bien vouloir renseigner aumoins un marché/Filiere/theme de veille');
