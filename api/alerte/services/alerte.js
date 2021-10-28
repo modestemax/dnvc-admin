@@ -49,7 +49,7 @@ module.exports = {
     }
   },
 
-  checkMandatoryField() {
+  checkMandatoryField(data) {
     console.log(data)
     const {Marches, Filieres, themes_de_veille, Emetteur} = data
     if (!Marches?.length && !Filieres?.length && !themes_de_veille)
