@@ -58,4 +58,4 @@ module.exports = {
       throw strapi.errors.badRequest('Bien vouloir renseigner la STRUCTURE DE VEILLE');
   }
 }
-;
+
