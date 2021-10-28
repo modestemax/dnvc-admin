@@ -12,7 +12,7 @@ module.exports = {
       strapi.services.alerte.checkMandatoryField(data)
     },
     async beforeCreate(data) {
-      strapi.services.alerte.checkMandatoryField(data)
+      strapi.services.alerte.checkMandatoryField({...arguments})
     },
 
     async afterUpdate(data) {
