@@ -8,14 +8,16 @@ const {isDraft} = require('strapi-utils').contentTypes;
 
 module.exports = {
   lifecycles: {
-    async beforeUpdate({id}, data) {
-      console.log('before update alerte ', arguments)
-      strapi.services.alerte.checkMandatoryField(data)
-    },
     async beforeCreate(data) {
       console.log('before create alerte ', arguments)
       strapi.services.alerte.checkMandatoryField(data)
     },
+    async beforeUpdate({id}, data) {
+      console.log('before update alerte ', arguments)
+      if (!(Object.keys(data).length === 1 && 'published_at' in data))
+        strapi.services.alerte.checkMandatoryField(data)
+    },
+
 
     async afterUpdate(data) {
       console.log('alert', data)
