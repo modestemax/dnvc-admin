@@ -9,10 +9,12 @@ const {isDraft} = require('strapi-utils').contentTypes;
 module.exports = {
   lifecycles: {
     async beforeUpdate(data) {
-      strapi.services.alerte.checkMandatoryField(data)
+      console.log('before update alerte ',arguments)
+      strapi.services.alerte.checkMandatoryField({...arguments})
     },
     async beforeCreate(data) {
-      strapi.services.alerte.checkMandatoryField({...arguments})
+      console.log('before create alerte ',arguments)
+      strapi.services.alerte.checkMandatoryField(data)
     },
 
     async afterUpdate(data) {
