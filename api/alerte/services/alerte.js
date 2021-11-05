@@ -52,10 +52,16 @@ module.exports = {
   checkMandatoryField(data) {
     console.log('checkMandatoryField on ',arguments)
     const {Marches, Filieres, themes_de_veille, Emetteur} = data
-    if (!Marches?.length && !Filieres?.length && !themes_de_veille)
-      throw strapi.errors.badRequest('Bien vouloir renseigner aumoins un marché/Filiere/theme de veille');
+    // if (!Marches?.length && !Filieres?.length && !themes_de_veille)
+    //   throw strapi.errors.badRequest('Bien vouloir renseigner aumoins un marché/Filiere/theme de veille');
     if (!Emetteur)
       throw strapi.errors.badRequest('Bien vouloir renseigner la STRUCTURE DE VEILLE');
+
+
+    // Check if there is sectors, markets or monitoring theme
+    data.hasFilieres = !!data.Filieres?.length
+    data.hasMarches = !!data.Marches?.length
+    data.hasTheme = !!data.themes_de_veille;
   }
 }
 

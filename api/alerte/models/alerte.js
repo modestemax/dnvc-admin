@@ -11,13 +11,13 @@ module.exports = {
     async beforeCreate(data) {
       console.log('before create alerte ', arguments)
       strapi.services.alerte.checkMandatoryField(data)
+      // strapi.services.alerte.setEmptyCriteriaChecker(data)
     },
     async beforeUpdate({id}, data) {
       console.log('before update alerte ', arguments)
       if (!(Object.keys(data).length === 1 && 'published_at' in data))
         strapi.services.alerte.checkMandatoryField(data)
     },
-
 
     async afterUpdate(data) {
       console.log('alert', data)
@@ -26,9 +26,13 @@ module.exports = {
         const {Marches, Filieres, themes_de_veille} = data
         const marcheIds = !Marches.length ? [null] : Marches.map(m => m.id)
         const filiereIds = !Filieres.length ? [null] : Filieres.map(m => m.id)
+
+        // const marcheIds = !Marches.length ? [0] : Marches.map(m => m.id)
+        // const filiereIds = !Filieres.length ? [0] : Filieres.map(m => m.id)
+
+
         const themeId = !themes_de_veille ? null : themes_de_veille.id
         const conditions = []
-
         marcheIds.forEach(march_id => filiereIds.forEach(filiere_id => {
           let cond = []
           march_id ? cond.push('m.id=' + march_id) : cond.push('true')// cond.push('m.id is null')
@@ -66,6 +70,12 @@ module.exports = {
         contacts.length && strapi.services.alerte.publish(data, contacts);
 
       }
+    },
+
+    beforeFind(params, populate) {
+      params._where.hasFilieres = false;
+      params._where.hasMarches = false;
+      params._where.hasTheme = false;
     }
   }
 };
