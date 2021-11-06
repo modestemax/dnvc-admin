@@ -94,6 +94,36 @@
     },
     "themes_de_veille": {
       "model": "themes-de-veille"
+    },
+    "hasFilieres": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "boolean",
+      "default": false,
+      "private": true
+    },
+    "hasMarches": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "boolean",
+      "default": false,
+      "private": true
+    },
+    "hasTheme": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "boolean",
+      "default": false,
+      "private": true
     }
   }
 }

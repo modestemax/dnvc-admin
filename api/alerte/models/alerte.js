@@ -11,7 +11,6 @@ module.exports = {
     async beforeCreate(data) {
       console.log('before create alerte ', arguments)
       strapi.services.alerte.checkMandatoryField(data)
-      // strapi.services.alerte.setEmptyCriteriaChecker(data)
     },
     async beforeUpdate({id}, data) {
       console.log('before update alerte ', arguments)
@@ -68,14 +67,7 @@ module.exports = {
         contacts = contacts.rows || contacts
         console.log('contacts = ', contacts)
         contacts.length && strapi.services.alerte.publish(data, contacts);
-
       }
     },
-
-    beforeFind(params, populate) {
-      params._where.hasFilieres = false;
-      params._where.hasMarches = false;
-      params._where.hasTheme = false;
-    }
   }
 };
