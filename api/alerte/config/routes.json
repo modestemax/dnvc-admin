@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/alertes/adv-search",
+      "handler": "alerte.advSearch",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/alertes/count",
       "handler": "alerte.count",
       "config": {
