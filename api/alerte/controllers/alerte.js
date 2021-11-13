@@ -39,10 +39,10 @@ module.exports = {
 
       let alertes = await strapi.connections.default.raw(query)
 
-
+      alertes = alertes.rows
       console.debug(alertes)
 
-      return ctx.send(alertes && alertes.map(alerte => ({...alerte, sourceFile: [{"url": alerte.url}], url: void 0})));
+      return ctx.send(alertes.map(alerte => ({...alerte, sourceFile: [{"url": alerte.url}], url: void 0})));
     }
     ctx.badRequest('set conditions')
   }
