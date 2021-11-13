@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a.*, uf.url
+      let select = `select a.*, uf.*
                     from alertes a
                            left join alertes__filieres af on a.id = af.alerte_id
                            left join filieres f on af.filiere_id = f.id
@@ -20,7 +20,6 @@ module.exports = {
                            left join themes_de_veilles tv on a.themes_de_veille = tv.id
                            left join upload_file_morph ufm on a.id = ufm.related_id
                            left join upload_file uf on ufm.upload_file_id = uf.id
-                    where ufm.related_type='application/pdf';
       `
 
       const fquery = ("Filieres.Name" in where) ? ` f."Name" = '${where ["Filieres.Name"]}' or f."Name" is null` : 'true'
