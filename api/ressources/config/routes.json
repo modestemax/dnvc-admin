@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/ressources/adv-search",
+      "handler": "ressources.advancedSearch",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/ressources/count",
       "handler": "ressources.count",
       "config": {

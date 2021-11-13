@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/notes-de-veilles/adv-search",
+      "handler": "notes-de-veilles.advancedSearch",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/notes-de-veilles/count",
       "handler": "notes-de-veilles.count",
       "config": {
