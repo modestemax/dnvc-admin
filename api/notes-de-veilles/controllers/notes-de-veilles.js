@@ -39,11 +39,30 @@ module.exports = {
 
       let notes = await strapi.connections.default.raw(query)
 
-      // notes = notes.rows
+      notes = notes.map(note => (note.mime.split('/')[0] !== 'image' ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, SourceFile: []}))
 
-      console.debug(notes)
+      const groupedNotes = [];
 
-      return ctx.send(notes.map(note => (note.mime.split('/')[0] !== 'image' ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, SourceFile: []})));
+      notes.forEach((item) => {
+        const existing = notes.filter((note) => {
+          return note.id === item.id;
+        })
+        if (existing.length > 1) {
+          if (existing[0].mime.split('/')[0] !== 'image') {
+            groupedNotes.push({...existing[0], photo: existing[1].photo})
+            notes.splice(notes.indexOf(existing[1]), 1)
+          } else {
+            groupedNotes.push({...existing[0], SourceFile: existing[1].SourceFile})
+            notes.splice(notes.indexOf(existing[1]), 1)
+          }
+        } else {
+          groupedNotes.push({...existing[0], SourceFile: []})
+        }
+      });
+
+      console.debug(groupedNotes)
+
+      return ctx.send(groupedNotes);
 
     }
     ctx.badRequest('set conditions')

@@ -41,11 +41,9 @@ module.exports = {
 
       let ressources = await strapi.connections.default.raw(query)
 
-      // ressources = ressources.rows
-
       ressources = ressources.map(ressource => (ressource.mime.split('/')[0] !== 'image' ? {...ressource, SourceFile: [{"url": ressource.url}], url: void 0} : {...ressource, photo: {"url": ressource.url}, url: void 0}))
 
-      let groupedResult = [];
+      const groupedRessources = [];
 
       ressources.forEach((item) => {
         const existing = ressources.filter((ressource) => {
@@ -53,20 +51,20 @@ module.exports = {
         })
         if (existing.length > 1) {
           if (existing[0].mime.split('/')[0] !== 'image') {
-            groupedResult.push({...existing[0], photo: existing[1].photo})
+            groupedRessources.push({...existing[0], photo: existing[1].photo})
             ressources.splice(ressources.indexOf(existing[1]), 1)
           } else {
-            groupedResult.push({...existing[0], SourceFile: existing[1].SourceFile})
+            groupedRessources.push({...existing[0], SourceFile: existing[1].SourceFile})
             ressources.splice(ressources.indexOf(existing[1]), 1)
           }
         } else {
-          groupedResult.push({...existing[0], SourceFile: []})
+          groupedRessources.push({...existing[0], SourceFile: []})
         }
       });
 
-      console.debug(groupedResult)
+      console.debug(groupedRessources)
 
-      return ctx.send(groupedResult);
+      return ctx.send(groupedRessources);
     }
     ctx.badRequest('set conditions')
   }

@@ -39,11 +39,30 @@ module.exports = {
 
       let alertes = await strapi.connections.default.raw(query)
 
-      // alertes = alertes.rows
+      alertes = alertes.map(alerte => (alerte.mime.split('/')[0] !== 'image' ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, SourceFile: []}))
 
-      console.debug(alertes)
+      const groupedAlerts = [];
 
-      return ctx.send(alertes.map(alerte => (alerte.mime.split('/')[0] !== 'image' ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, SourceFile: []})));
+      alertes.forEach((item) => {
+        const existing = alertes.filter((alerte) => {
+          return alerte.id === item.id;
+        })
+        if (existing.length > 1) {
+          if (existing[0].mime.split('/')[0] !== 'image') {
+            groupedAlerts.push({...existing[0], photo: existing[1].photo})
+            alertes.splice(alertes.indexOf(existing[1]), 1)
+          } else {
+            groupedAlerts.push({...existing[0], SourceFile: existing[1].SourceFile})
+            alertes.splice(alertes.indexOf(existing[1]), 1)
+          }
+        } else {
+          groupedAlerts.push({...existing[0], SourceFile: []})
+        }
+      });
+
+      console.debug(groupedAlerts)
+
+      return ctx.send(groupedAlerts);
     }
     ctx.badRequest('set conditions')
   }
