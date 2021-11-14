@@ -41,30 +41,23 @@ module.exports = {
 
       notes = notes.rows
 
-      notes = notes.map(note => (note.mime.split('/')[0] !== 'image' ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, SourceFile: []}))
-
-      const groupedNotes = [];
+      notes = notes.map(note => ((note.mime !== null && note.mime.split('/')[0] !== 'image') ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, photo: {"url": note.url}, url: void 0, SourceFile: []}))
 
       notes.forEach((item) => {
         const existing = notes.filter((note) => {
           return note.id === item.id;
         })
         if (existing.length > 1) {
-          if (existing[0].mime.split('/')[0] !== 'image') {
-            groupedNotes.push({...existing[0], photo: existing[1].photo})
+          if (existing[0].mime.split('/')[0] !== 'image')
             notes.splice(notes.indexOf(existing[1]), 1)
-          } else {
-            groupedNotes.push({...existing[0], SourceFile: existing[1].SourceFile})
-            notes.splice(notes.indexOf(existing[1]), 1)
-          }
-        } else {
-          groupedNotes.push({...existing[0], SourceFile: []})
+          else
+            notes.splice(notes.indexOf(existing[0]), 1)
         }
       });
 
-      console.debug(groupedNotes)
+      console.debug(notes)
 
-      return ctx.send(groupedNotes);
+      return ctx.send(notes);
 
     }
     ctx.badRequest('set conditions')

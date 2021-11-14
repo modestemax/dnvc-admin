@@ -41,30 +41,23 @@ module.exports = {
 
       alertes = alertes.rows
 
-      alertes = alertes.map(alerte => (alerte.mime.split('/')[0] !== 'image' ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, SourceFile: []}))
-
-      const groupedAlerts = [];
+      alertes = alertes.map(alerte => ((alerte.mime !== null && alerte.mime.split('/')[0] !== 'image') ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, photo: {"url": alerte.url}, url: void 0, SourceFile: []}))
 
       alertes.forEach((item) => {
         const existing = alertes.filter((alerte) => {
           return alerte.id === item.id;
         })
         if (existing.length > 1) {
-          if (existing[0].mime.split('/')[0] !== 'image') {
-            groupedAlerts.push({...existing[0], photo: existing[1].photo})
+          if (existing[0].mime.split('/')[0] !== 'image')
             alertes.splice(alertes.indexOf(existing[1]), 1)
-          } else {
-            groupedAlerts.push({...existing[0], SourceFile: existing[1].SourceFile})
-            alertes.splice(alertes.indexOf(existing[1]), 1)
-          }
-        } else {
-          groupedAlerts.push({...existing[0], SourceFile: []})
+          else
+            alertes.splice(alertes.indexOf(existing[0]), 1)
         }
       });
 
-      console.debug(groupedAlerts)
+      console.debug(alertes)
 
-      return ctx.send(groupedAlerts);
+      return ctx.send(alertes);
     }
     ctx.badRequest('set conditions')
   }
