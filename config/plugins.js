@@ -2,6 +2,13 @@
 
 module.exports = ({env}) => ({
   // ...
+  // upload: {
+  //   providerOptions: {
+  //     localServer: {
+  //       maxAge: 100000000
+  //     }
+  //   },
+  // },
   upload: {
     provider: 'aws-s3',
     providerOptions: {

@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select n.*, uf.url
+      let select = `select n.*, uf.mime, uf.url
                     from notes_de_veilles n
                            left join notes_de_veilles__filieres nf on n.id = nf.notes_de_veille_id
                            left join filieres f on nf.filiere_id = f.id
@@ -38,9 +38,12 @@ module.exports = {
       console.log('query is ', query)
 
       let notes = await strapi.connections.default.raw(query)
-      notes = notes.rows
+
+      // notes = notes.rows
+
       console.debug(notes)
-      return ctx.send(notes.map(note => ({...note, sourceFile: [{"url": note.url}], url: void 0})));
+
+      return ctx.send(notes.map(note => (note.mime.split('/')[0] !== 'image' ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, SourceFile: []})));
 
     }
     ctx.badRequest('set conditions')

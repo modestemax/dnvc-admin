@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a.*, uf.*
+      let select = `select a.*, uf.mime, uf.url
                     from alertes a
                            left join alertes__filieres af on a.id = af.alerte_id
                            left join filieres f on af.filiere_id = f.id
@@ -39,10 +39,11 @@ module.exports = {
 
       let alertes = await strapi.connections.default.raw(query)
 
-      alertes = alertes.rows
+      // alertes = alertes.rows
+
       console.debug(alertes)
 
-      return ctx.send(alertes.map(alerte => ({...alerte, sourceFile: [{"url": alerte.url}], url: void 0})));
+      return ctx.send(alertes.map(alerte => (alerte.mime.split('/')[0] !== 'image' ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, SourceFile: []})));
     }
     ctx.badRequest('set conditions')
   }
