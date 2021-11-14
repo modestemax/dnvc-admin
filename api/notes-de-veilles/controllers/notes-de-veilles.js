@@ -43,17 +43,17 @@ module.exports = {
 
       notes = notes.map(note => ((note.mime !== null && note.mime.split('/')[0] !== 'image') ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, photo: {"url": note.url}, url: void 0, SourceFile: []}))
 
-      notes.forEach((item) => {
-        const existing = notes.filter((note) => {
-          return note.id === item.id;
-        })
-        if (existing.length > 1) {
-          if (existing[0].mime.split('/')[0] !== 'image')
-            notes.splice(notes.indexOf(existing[1]), 1)
-          else
-            notes.splice(notes.indexOf(existing[0]), 1)
-        }
-      });
+      // notes.forEach((item) => {
+      //   const existing = notes.filter((note) => {
+      //     return note.id === item.id;
+      //   })
+      //   if (existing.length > 1) {
+      //     if (existing[0].mime.split('/')[0] !== 'image')
+      //       notes.splice(notes.indexOf(existing[1]), 1)
+      //     else
+      //       notes.splice(notes.indexOf(existing[0]), 1)
+      //   }
+      // });
 
       console.debug(notes)
 
