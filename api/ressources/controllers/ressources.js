@@ -41,6 +41,8 @@ module.exports = {
 
       let ressources = await strapi.connections.default.raw(query)
 
+      ressources = ressources.rows
+
       ressources = ressources.map(ressource => (ressource.mime.split('/')[0] !== 'image' ? {...ressource, SourceFile: [{"url": ressource.url}], url: void 0} : {...ressource, photo: {"url": ressource.url}, url: void 0}))
 
       const groupedRessources = [];

@@ -39,6 +39,8 @@ module.exports = {
 
       let alertes = await strapi.connections.default.raw(query)
 
+      alertes = alertes.rows
+
       alertes = alertes.map(alerte => (alerte.mime.split('/')[0] !== 'image' ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, SourceFile: []}))
 
       const groupedAlerts = [];

@@ -39,6 +39,8 @@ module.exports = {
 
       let notes = await strapi.connections.default.raw(query)
 
+      notes = notes.rows
+
       notes = notes.map(note => (note.mime.split('/')[0] !== 'image' ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, SourceFile: []}))
 
       const groupedNotes = [];
