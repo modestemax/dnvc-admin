@@ -59,8 +59,8 @@ module.exports = {
           markets = [...new Map(markets.map(market =>
             [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
 
-          if (!markets.length)
-            markets = [{}]
+          if (markets[0] === undefined)
+            markets = [null]
 
           if (image.length !== 0) {
             if (doc.length !== 0) {
