@@ -34,7 +34,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where ${fquery} and ${mquery} and ${tquery} and ${dgquery} and ${dlquery}`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
 
 
       console.log('query is ', query)
@@ -43,30 +43,39 @@ module.exports = {
 
       ressources = ressources.rows
 
-      ressources = ressources.map(ressource => (ressource.mime.split('/')[0] !== 'image' ? {...ressource, SourceFile: [{"url": ressource.url}], url: void 0} : {...ressource, photo: {"url": ressource.url}, url: void 0}))
+      const filteredRessources = []
 
-      const groupedRessources = [];
-
-      ressources.forEach((item) => {
-        const existing = ressources.filter((ressource) => {
-          return ressource.id === item.id;
-        })
-        if (existing.length > 1) {
-          if (existing[0].mime.split('/')[0] !== 'image') {
-            groupedRessources.push({...existing[0], photo: existing[1].photo})
-            ressources.splice(ressources.indexOf(existing[1]), 1)
+      for (const item of ressources) {
+        if (item.mime !== null) {
+          const image = ressources.filter((ressource) => {
+            return ressource.id === item.id && ressource.mime.split('/')[0] === 'image';
+          })
+          const doc = ressources.filter((ressource) => {
+            return ressource.id === item.id && ressource.mime.split('/')[0] !== 'image';
+          })
+          if (image.length !== 0) {
+            if (doc.length !== 0) {
+              filteredRessources.push({...image[0], photo: { url: image[0].url }, SourceFile: [{url: doc[0].url}]})
+            } else {
+              filteredRessources.push({...image[0], photo: { url: image[0].url }, SourceFile: []})
+            }
           } else {
-            groupedRessources.push({...existing[0], SourceFile: existing[1].SourceFile})
-            ressources.splice(ressources.indexOf(existing[1]), 1)
+            if (doc.length !== 0) {
+              filteredRessources.push({...doc[0], SourceFile: [{url: doc[0].url}]})
+            }
           }
         } else {
-          groupedRessources.push({...existing[0], SourceFile: []})
+          filteredRessources.push({...item, photo: { url: item.url }, SourceFile: []})
         }
-      });
 
-      console.debug(groupedRessources)
+        ressources = ressources.filter((ressource) => {
+          return ressource.id !== item.id
+        })
+      }
 
-      return ctx.send(groupedRessources);
+      console.debug(filteredRessources)
+
+      return ctx.send(filteredRessources);
     }
     ctx.badRequest('set conditions')
   }

@@ -32,7 +32,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where ${fquery} and ${mquery} and ${tquery} and ${dgquery} and ${dlquery}`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
 
 
       console.log('query is ', query)
@@ -41,23 +41,40 @@ module.exports = {
 
       alertes = alertes.rows
 
-      alertes = alertes.map(alerte => ((alerte.mime !== null && alerte.mime.split('/')[0] !== 'image') ? {...alerte, SourceFile: [{"url": alerte.url}], url: void 0} : {...alerte, photo: {"url": alerte.url}, url: void 0, SourceFile: []}))
+      const filteredAlerts = []
 
-      alertes.forEach((item) => {
-        const existing = alertes.filter((alerte) => {
-          return alerte.id === item.id;
-        })
-        if (existing.length > 1) {
-          if (existing[0].mime.split('/')[0] !== 'image')
-            alertes.splice(alertes.indexOf(existing[1]), 1)
-          else
-            alertes.splice(alertes.indexOf(existing[0]), 1)
+      for (const item of alertes) {
+        if (item.mime !== null) {
+          const image = alertes.filter((alerte) => {
+            return alerte.id === item.id && alerte.mime.split('/')[0] === 'image';
+          })
+          const doc = alertes.filter((alerte) => {
+            return alerte.id === item.id && alerte.mime.split('/')[0] !== 'image';
+          })
+          if (image.length !== 0) {
+            if (doc.length !== 0) {
+              filteredAlerts.push({...image[0], SourceFile: [{url: doc[0].url}]})
+            } else {
+              filteredAlerts.push({...image[0], SourceFile: []})
+            }
+          } else {
+            if (doc.length !== 0) {
+              filteredAlerts.push({...doc[0], SourceFile: [{url: doc[0].url}]})
+            }
+          }
+        } else {
+          filteredAlerts.push({...item, SourceFile: []})
         }
-      });
 
-      console.debug(alertes)
+        alertes = alertes.filter((alerte) => {
+          return alerte.id !== item.id
+        })
+      }
 
-      return ctx.send(alertes);
+      console.debug(filteredAlerts)
+
+      return ctx.send(filteredAlerts);
+
     }
     ctx.badRequest('set conditions')
   }

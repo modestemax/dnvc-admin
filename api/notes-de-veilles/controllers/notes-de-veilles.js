@@ -32,7 +32,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where ${fquery} and ${mquery} and ${tquery} and ${dgquery} and ${dlquery}`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
 
 
       console.log('query is ', query)
@@ -53,12 +53,11 @@ module.exports = {
           })
           if (image.length !== 0) {
             if (doc.length !== 0) {
-              filteredNotes.push({...image[0], SourceFile: [{url: doc[0].url}], url: void 0})
+              filteredNotes.push({...image[0], SourceFile: [{url: doc[0].url}]})
             } else {
               filteredNotes.push({...image[0], SourceFile: []})
             }
-          }
-          else {
+          } else {
             if (doc.length !== 0) {
               filteredNotes.push({...doc[0], SourceFile: [{url: doc[0].url}]})
             }
