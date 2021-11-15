@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a.*, m.Nom, uf.mime, uf.url
+      let select = `select a.*, m.*, uf.mime, uf.url
                     from alertes a
                            left join alertes__filieres af on a.id = af.alerte_id
                            left join filieres f on af.filiere_id = f.id
