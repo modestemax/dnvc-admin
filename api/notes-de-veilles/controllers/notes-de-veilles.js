@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select n.*, uf.mime, uf.url
+      let select = `select n.*, m.Nom, uf.mime, uf.url
                     from notes_de_veilles n
                            left join notes_de_veilles__filieres nf on n.id = nf.notes_de_veille_id
                            left join filieres f on nf.filiere_id = f.id
@@ -51,19 +51,34 @@ module.exports = {
           const doc = notes.filter((note) => {
             return note.id === item.id && note.mime.split('/')[0] !== 'image';
           })
-          if (image.length !== 0) {
-            if (doc.length !== 0) {
-              filteredNotes.push({...image[0], SourceFile: [{url: doc[0].url}]})
+          let markets = notes.filter((note) => {
+            return note.id === item.id;
+          })
+
+          markets = [...new Map(markets.map(market =>
+            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+
+          if (!!image.length) {
+            if (!!doc.length) {
+              filteredNotes.push({...image[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
             } else {
-              filteredNotes.push({...image[0], SourceFile: []})
+              filteredNotes.push({...image[0], Marches: markets, SourceFile: []})
             }
           } else {
-            if (doc.length !== 0) {
-              filteredNotes.push({...doc[0], SourceFile: [{url: doc[0].url}]})
+            if (!!doc.length) {
+              filteredNotes.push({...doc[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
             }
           }
         } else {
-          filteredNotes.push({...item, SourceFile: []})
+
+          let markets = notes.filter((note) => {
+            return note.id === item.id;
+          })
+
+          markets = [...new Map(markets.map(market =>
+            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+
+          filteredNotes.push({...item, Marches: markets, SourceFile: []})
         }
 
         notes = notes.filter((note) => {

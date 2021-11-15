@@ -13,7 +13,7 @@ module.exports = {
 
     if (where) {
 
-      let select = `select r.*, uf.mime, uf.url
+      let select = `select r.*, m.Nom, uf.mime, uf.url
                     from ressources r
                        left join ressources__filieres rf on r.id = rf.ressource_id
                        left join filieres f on rf.filiere_id = f.id
@@ -40,7 +40,7 @@ module.exports = {
 
       let ressources = await strapi.connections.default.raw(query)
 
-      ressources = ressources.rows
+      // ressources = ressources.rows
 
       const filteredRessources = []
 
@@ -52,19 +52,39 @@ module.exports = {
           const doc = ressources.filter((ressource) => {
             return ressource.id === item.id && ressource.mime.split('/')[0] !== 'image';
           })
+          let markets = ressources.filter((ressource) => {
+            return ressource.id === item.id;
+          })
+
+          markets = [...new Map(markets.map(market =>
+            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+
+          if (!markets.length)
+            markets = [{}]
+
           if (image.length !== 0) {
             if (doc.length !== 0) {
-              filteredRessources.push({...image[0], photo: { url: image[0].url }, SourceFile: [{url: doc[0].url}]})
+              filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: [{url: doc[0].url}]})
             } else {
-              filteredRessources.push({...image[0], photo: { url: image[0].url }, SourceFile: []})
+              filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: []})
             }
           } else {
             if (doc.length !== 0) {
-              filteredRessources.push({...doc[0], SourceFile: [{url: doc[0].url}]})
+              filteredRessources.push({...doc[0], marche: markets[0], SourceFile: [{url: doc[0].url}]})
             }
           }
         } else {
-          filteredRessources.push({...item, photo: { url: item.url }, SourceFile: []})
+
+          let markets = ressources.filter((ressource) => {
+            return ressource.id === item.id;
+          })
+
+          markets = [...new Map(markets.map(market =>
+            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+
+          console.log(markets)
+
+          filteredRessources.push({...item, marche: markets[0], photo: { url: item.url }, SourceFile: []})
         }
 
         ressources = ressources.filter((ressource) => {

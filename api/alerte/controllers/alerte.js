@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a.*, uf.mime, uf.url
+      let select = `select a.*, m.Nom, uf.mime, uf.url
                     from alertes a
                            left join alertes__filieres af on a.id = af.alerte_id
                            left join filieres f on af.filiere_id = f.id
@@ -51,19 +51,34 @@ module.exports = {
           const doc = alertes.filter((alerte) => {
             return alerte.id === item.id && alerte.mime.split('/')[0] !== 'image';
           })
-          if (image.length !== 0) {
-            if (doc.length !== 0) {
-              filteredAlerts.push({...image[0], SourceFile: [{url: doc[0].url}]})
+          let markets = alertes.filter((alerte) => {
+            return alerte.id === item.id;
+          })
+
+          markets = [...new Map(markets.map(market =>
+            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+
+          if (!!image.length) {
+            if (!!doc.length) {
+              filteredAlerts.push({...image[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
             } else {
-              filteredAlerts.push({...image[0], SourceFile: []})
+              filteredAlerts.push({...image[0], Marches: markets, SourceFile: []})
             }
           } else {
-            if (doc.length !== 0) {
-              filteredAlerts.push({...doc[0], SourceFile: [{url: doc[0].url}]})
+            if (!!doc.length) {
+              filteredAlerts.push({...doc[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
             }
           }
         } else {
-          filteredAlerts.push({...item, SourceFile: []})
+
+          let markets = alertes.filter((alerte) => {
+            return alerte.id === item.id;
+          })
+
+          markets = [...new Map(markets.map(market =>
+            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+
+          filteredAlerts.push({...item, Marches: markets, SourceFile: []})
         }
 
         alertes = alertes.filter((alerte) => {
