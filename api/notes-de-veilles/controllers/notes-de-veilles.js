@@ -41,23 +41,40 @@ module.exports = {
 
       notes = notes.rows
 
-      notes = notes.map(note => ((note.mime !== null && note.mime.split('/')[0] !== 'image') ? {...note, SourceFile: [{"url": note.url}], url: void 0} : {...note, photo: {"url": note.url}, url: void 0, SourceFile: []}))
+      const filteredNotes = []
 
-      // notes.forEach((item) => {
-      //   const existing = notes.filter((note) => {
-      //     return note.id === item.id;
-      //   })
-      //   if (existing.length > 1) {
-      //     if (existing[0].mime.split('/')[0] !== 'image')
-      //       notes.splice(notes.indexOf(existing[1]), 1)
-      //     else
-      //       notes.splice(notes.indexOf(existing[0]), 1)
-      //   }
-      // });
+      for (const item of notes) {
+        if (item.mime !== null) {
+          const image = notes.filter((note) => {
+            return note.id === item.id && note.mime.split('/')[0] === 'image';
+          })
+          const doc = notes.filter((note) => {
+            return note.id === item.id && note.mime.split('/')[0] !== 'image';
+          })
+          if (image.length !== 0) {
+            if (doc.length !== 0) {
+              filteredNotes.push({...image[0], SourceFile: [{url: doc[0].url}], url: void 0})
+            } else {
+              filteredNotes.push({...image[0], SourceFile: []})
+            }
+          }
+          else {
+            if (doc.length !== 0) {
+              filteredNotes.push({...doc[0], SourceFile: [{url: doc[0].url}]})
+            }
+          }
+        } else {
+          filteredNotes.push({...item, SourceFile: []})
+        }
 
-      console.debug(notes)
+        notes = notes.filter((note) => {
+          return note.id !== item.id
+        })
+      }
 
-      return ctx.send(notes);
+      console.debug(filteredNotes)
+
+      return ctx.send(filteredNotes);
 
     }
     ctx.badRequest('set conditions')
