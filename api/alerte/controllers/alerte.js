@@ -51,12 +51,12 @@ module.exports = {
         else
           alerte.marches = []
 
-        if (alerte.SourceFile[0] !== null)
-          alerte.SourceFile = alerte.SourceFile.map(url => ({ url: url }))
-        else
-          alerte.SourceFile = []
-
-        alerte.Emetteur = alerte.Emetteur.map(em => ({ NomStructure: em }))[0]
+        // if (alerte.SourceFile[0] !== null)
+        //   alerte.SourceFile = alerte.SourceFile.map(url => ({ url: url }))
+        // else
+        //   alerte.SourceFile = []
+        //
+        // alerte.Emetteur = alerte.Emetteur.map(em => ({ NomStructure: em }))[0]
       })
 
       return ctx.send(alertes);
