@@ -11,8 +11,11 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a.*, m.Nom, uf.mime, uf.url
+      let select = `select a.id, a.Title, a.Type, a.Resume, a.DatePublication, a.SourceUrl, a.themes_de_veille, group_concat(json_object('Nom', m.Nom), ',') as marches,
+            group_concat(json_object('url', uf.url), ',') as SourceFile,
+            group_concat(json_object('NomStructure', sv.NomStructure), ',') as Emetteur
                     from alertes a
+                           left join structure_de_veilles sv on a.Emetteur = sv.id
                            left join alertes__filieres af on a.id = af.alerte_id
                            left join filieres f on af.filiere_id = f.id
                            left join alertes__marches am on a.id = am.alerte_id
@@ -32,7 +35,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by a.id`
 
 
       console.log('query is ', query)
@@ -41,54 +44,15 @@ module.exports = {
 
       alertes = alertes.rows
 
-      const filteredAlerts = []
+      alertes.forEach((alerte) => {
+        alerte.marches = JSON.parse('[' + alerte.marches + ']')
+        alerte.SourceFile = JSON.parse('[' + alerte.SourceFile + ']')[0].url === null ? [] : JSON.parse('[' + alerte.SourceFile + ']')[0]
+        alerte.Emetteur = JSON.parse('[' + alerte.Emetteur + ']')[0]
+        if (alerte.marches[0].Nom === null)
+          alerte.marches = []
+      })
 
-      for (const item of alertes) {
-        if (item.mime !== null) {
-          const image = alertes.filter((alerte) => {
-            return alerte.id === item.id && alerte.mime.split('/')[0] === 'image';
-          })
-          const doc = alertes.filter((alerte) => {
-            return alerte.id === item.id && alerte.mime.split('/')[0] !== 'image';
-          })
-          let markets = alertes.filter((alerte) => {
-            return alerte.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          if (!!image.length) {
-            if (!!doc.length) {
-              filteredAlerts.push({...image[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
-            } else {
-              filteredAlerts.push({...image[0], Marches: markets, SourceFile: []})
-            }
-          } else {
-            if (!!doc.length) {
-              filteredAlerts.push({...doc[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
-            }
-          }
-        } else {
-
-          let markets = alertes.filter((alerte) => {
-            return alerte.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          filteredAlerts.push({...item, Marches: markets, SourceFile: []})
-        }
-
-        alertes = alertes.filter((alerte) => {
-          return alerte.id !== item.id
-        })
-      }
-
-      console.debug(filteredAlerts)
-
-      return ctx.send(filteredAlerts);
+      return ctx.send(alertes);
 
     }
     ctx.badRequest('set conditions')
