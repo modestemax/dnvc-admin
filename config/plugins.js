@@ -2,14 +2,14 @@
 
 module.exports = ({env}) => ({
   // ...
-  // upload: {
-  //   providerOptions: {
-  //     localServer: {
-  //       maxAge: 100000000
-  //     }
-  //   },
-  // },
   upload: {
+    providerOptions: {
+      localServer: {
+        maxAge: 100000000
+      }
+    },
+  },
+  upload__: {
     provider: 'aws-s3',
     providerOptions: {
       accessKeyId: env('AWS_ACCESS_KEY_ID'),

@@ -11,15 +11,23 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
+<<<<<<< HEAD
       let select = `select a.*, m.*, uf.mime, uf.url
+=======
+      let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
+                    array_agg(m."Nom") as marches,
+                    array_agg(uf."url") as files,
+                    array_agg(sv."NomStructure") as emetteur
+>>>>>>> f0fb8e6c32a477aba5a01ad20210b50ea565e52f
                     from alertes a
-                           left join alertes__filieres af on a.id = af.alerte_id
-                           left join filieres f on af.filiere_id = f.id
-                           left join alertes__marches am on a.id = am.alerte_id
-                           left join marches m on am.march_id = m.id
-                           left join themes_de_veilles tv on a.themes_de_veille = tv.id
-                           left join upload_file_morph ufm on a.id = ufm.related_id
-                           left join upload_file uf on ufm.upload_file_id = uf.id
+                           left join alertes__filieres af on a."id" = af."alerte_id"
+                           left join filieres f on af."filiere_id" = f."id"
+                           left join alertes__marches am on a."id" = am."alerte_id"
+                           left join marches m on am."march_id" = m."id"
+                           left join themes_de_veilles tv on a."themes_de_veille" = tv."id"
+                           left join structure_de_veilles sv on a."Emetteur" = sv."id"
+                           left join upload_file_morph ufm on a."id" = ufm."related_id"
+                           left join upload_file uf on ufm."upload_file_id" = uf."id"
       `
 
       const fquery = ("Filieres.Name" in where) ? ` f."Name" = '${where ["Filieres.Name"]}' or f."Name" is null` : 'true'
@@ -32,7 +40,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by a.id`
 
 
       console.log('query is ', query)
@@ -41,54 +49,20 @@ module.exports = {
 
       alertes = alertes.rows
 
-      const filteredAlerts = []
+      alertes.forEach((alerte) => {
 
-      for (const item of alertes) {
-        if (item.mime !== null) {
-          const image = alertes.filter((alerte) => {
-            return alerte.id === item.id && alerte.mime.split('/')[0] === 'image';
-          })
-          const doc = alertes.filter((alerte) => {
-            return alerte.id === item.id && alerte.mime.split('/')[0] !== 'image';
-          })
-          let markets = alertes.filter((alerte) => {
-            return alerte.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          if (!!image.length) {
-            if (!!doc.length) {
-              filteredAlerts.push({...image[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
-            } else {
-              filteredAlerts.push({...image[0], Marches: markets, SourceFile: []})
-            }
-          } else {
-            if (!!doc.length) {
-              filteredAlerts.push({...doc[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
-            }
-          }
+        if (alerte.marches[0] !== null) {
+          let tempMarketArray = alerte.marches.map(marche => ({ Nom: marche }))
+          alerte.marches = [...new Map(tempMarketArray.map(market => [market['Nom'], { Nom: market.Nom }])).values()]
         } else {
-
-          let markets = alertes.filter((alerte) => {
-            return alerte.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          filteredAlerts.push({...item, Marches: markets, SourceFile: []})
+          alerte.marches = []
         }
+        // alerte.files = alerte.files.map(url => (url.include('.pdf') ? { url: url } : ))
 
-        alertes = alertes.filter((alerte) => {
-          return alerte.id !== item.id
-        })
-      }
+        // alerte.emetteur = alerte.emetteur.map(em => ({ NomStructure: em }))[0]
+      })
 
-      console.debug(filteredAlerts)
-
-      return ctx.send(filteredAlerts);
+      return ctx.send(alertes);
 
     }
     ctx.badRequest('set conditions')
