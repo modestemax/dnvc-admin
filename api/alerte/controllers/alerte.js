@@ -46,16 +46,15 @@ module.exports = {
       alertes = alertes.rows
 
       alertes.forEach((alerte) => {
-        if (alerte.marches[0] !== null)
-          alerte.marches = alerte.marches.map(marche => ({ Nom: marche }))
-        else
-          alerte.marches = []
 
-        // if (alerte.sourcefile[0] !== null)
-        //   alerte.sourcefile = alerte.sourcefile.map(url => ({ url: url }))
-        // else
-        //   alerte.sourcefile = []
-        //
+        if (alerte.marches[0] !== null) {
+          let tempMarketArray = alerte.marches.map(marche => ({ Nom: marche }))
+          alerte.marches = [...new Map(tempMarketArray.map(market => [market['Nom'], { Nom: market.Nom }])).values()]
+        } else {
+          alerte.marches = []
+        }
+        // alerte.files = alerte.files.map(url => (url.include('.pdf') ? { url: url } : ))
+
         // alerte.emetteur = alerte.emetteur.map(em => ({ NomStructure: em }))[0]
       })
 
