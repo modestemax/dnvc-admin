@@ -11,7 +11,8 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl", group_concat(json_object('Nom', m."Nom"), ',') as marches,
+      let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
+                    group_concat(m."Nom") as marches,
                     group_concat(uf."url") as SourceFile,
                     group_concat(sv."NomStructure") as Emetteur
                     from alertes a
@@ -44,13 +45,13 @@ module.exports = {
 
       alertes = alertes.rows
 
-      alertes.forEach((alerte) => {
-        alerte.marches = JSON.parse('[' + alerte.marches + ']')
-        alerte.SourceFile = JSON.parse('[' + alerte.SourceFile + ']')[0].url === null ? [] : JSON.parse('[' + alerte.SourceFile + ']')[0]
-        alerte.Emetteur = JSON.parse('[' + alerte.Emetteur + ']')[0]
-        if (alerte.marches[0].Nom === null)
-          alerte.marches = []
-      })
+      // alertes.forEach((alerte) => {
+      //   alerte.marches = JSON.parse('[' + alerte.marches + ']')
+      //   alerte.SourceFile = JSON.parse('[' + alerte.SourceFile + ']')[0].url === null ? [] : JSON.parse('[' + alerte.SourceFile + ']')[0]
+      //   alerte.Emetteur = JSON.parse('[' + alerte.Emetteur + ']')[0]
+      //   if (alerte.marches[0].Nom === null)
+      //     alerte.marches = []
+      // })
 
       return ctx.send(alertes);
 
