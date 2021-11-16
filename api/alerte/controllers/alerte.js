@@ -12,7 +12,7 @@ module.exports = {
     const where = ctx.query._where;
     if (where) {
       let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
-                    array_agg(m."Nom") as marches
+                    array_agg(m."Nom") as marches,
                     array_agg(uf."url") as SourceFile,
                     array_agg(sv."NomStructure") as Emetteur
                     from alertes a
