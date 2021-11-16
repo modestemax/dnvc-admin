@@ -54,8 +54,7 @@ module.exports = {
         }
 
         if (alerte.files[0] !== null) {
-          let tempFileArray = alerte.files.map(url => ((url !== undefined && !url.includes('.jpg') && !url.includes('.jpeg') && !url.includes('.png')) ?
-            { url: url } : alerte.files.splice(alertes.files.indexOf(url), 1)))
+          let tempFileArray = alerte.files.map(url => ({ url: url }))
           alerte.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
         } else {
           alerte.files = []
