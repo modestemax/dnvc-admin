@@ -43,7 +43,7 @@ module.exports = {
 
       alertes = alertes.rows
 
-      for (alerte of alertes) {
+      for (const alerte of alertes) {
         if (alerte.marches[0] !== null)
           alerte.marches.map(marche => ({ Nom: marche }))
       }
