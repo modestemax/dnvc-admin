@@ -12,9 +12,7 @@ module.exports = {
     const where = ctx.query._where;
     if (where) {
       let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
-                    group_concat(m."Nom") as marches,
-                    group_concat(uf."url") as SourceFile,
-                    group_concat(sv."NomStructure") as Emetteur
+                    array_agg(m."Nom") as marches
                     from alertes a
                            left join alertes__filieres af on a."id" = af."alerte_id"
                            left join filieres f on af."filiere_id" = f."id"
