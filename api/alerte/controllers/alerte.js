@@ -13,8 +13,8 @@ module.exports = {
     if (where) {
       let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
                     array_agg(m."Nom") as marches,
-                    array_agg(uf."url") as SourceFile,
-                    array_agg(sv."NomStructure") as Emetteur
+                    array_agg(uf."url") as sourcefile,
+                    array_agg(sv."NomStructure") as emetteur
                     from alertes a
                            left join alertes__filieres af on a."id" = af."alerte_id"
                            left join filieres f on af."filiere_id" = f."id"
@@ -51,12 +51,12 @@ module.exports = {
         else
           alerte.marches = []
 
-        // if (alerte.SourceFile[0] !== null)
-        //   alerte.SourceFile = alerte.SourceFile.map(url => ({ url: url }))
+        // if (alerte.sourcefile[0] !== null)
+        //   alerte.sourcefile = alerte.sourcefile.map(url => ({ url: url }))
         // else
-        //   alerte.SourceFile = []
+        //   alerte.sourcefile = []
         //
-        // alerte.Emetteur = alerte.Emetteur.map(em => ({ NomStructure: em }))[0]
+        // alerte.emetteur = alerte.emetteur.map(em => ({ NomStructure: em }))[0]
       })
 
       return ctx.send(alertes);
