@@ -13,7 +13,7 @@ module.exports = {
     if (where) {
       let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
                     array_agg(m."Nom") as marches,
-                    array_agg(uf."url") as sourcefile,
+                    array_agg(uf."url") as files,
                     array_agg(sv."NomStructure") as emetteur
                     from alertes a
                            left join alertes__filieres af on a."id" = af."alerte_id"
