@@ -11,7 +11,7 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl", uf."ext",
+      let select = `select a."id", a."Title", a."Type", a."Resume", a."DatePublication", a."SourceUrl",
                     array_agg(m."Nom") as marches,
                     array_agg(uf."url") as files,
                     array_agg(sv."NomStructure") as emetteur
@@ -46,7 +46,6 @@ module.exports = {
       alertes = alertes.rows
 
       alertes.forEach((alerte) => {
-
         if (alerte.marches[0] !== null) {
           let tempMarketArray = alerte.marches.map(marche => ({ Nom: marche }))
           alerte.marches = [...new Map(tempMarketArray.map(market => [market['Nom'], { Nom: market.Nom }])).values()]
@@ -54,12 +53,15 @@ module.exports = {
           alerte.marches = []
         }
 
+        if (alerte.files[0] !== null) {
+          let tempFileArray = alerte.files.map(url => ({ url: url }))
+          alerte.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
+        } else {
+          alerte.files = []
+        }
+
         let tempEmArray = alerte.emetteur.map(em => ({ NomStructure: em }))
         alerte.emetteur = [...new Map(tempEmArray.map(em => [em['NomStructure'], { NomStructure: em.NomStructure }])).values()]
-
-        // alerte.files = alerte.files.map(url => (url.include('.pdf') ? { url: url } : ))
-
-        // alerte.emetteur = alerte.emetteur.map(em => ({ NomStructure: em }))[0]
       })
 
       return ctx.send(alertes);
