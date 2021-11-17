@@ -11,7 +11,10 @@ module.exports = {
 
     const where = ctx.query._where;
     if (where) {
-      let select = `select n.*, m.Nom, uf.mime, uf.url
+      let select = `select n."id", n."Title", n."Type", n."Resume", n."DatePublication", n."SourceUrl",
+                    array_agg(m."Nom") as marches,
+                    array_agg(uf."url") as files,
+                    array_agg(sv."NomStructure") as emetteur
                     from notes_de_veilles n
                            left join notes_de_veilles__filieres nf on n.id = nf.notes_de_veille_id
                            left join filieres f on nf.filiere_id = f.id
@@ -41,54 +44,26 @@ module.exports = {
 
       notes = notes.rows
 
-      const filteredNotes = []
-
-      for (const item of notes) {
-        if (item.mime !== null) {
-          const image = notes.filter((note) => {
-            return note.id === item.id && note.mime.split('/')[0] === 'image';
-          })
-          const doc = notes.filter((note) => {
-            return note.id === item.id && note.mime.split('/')[0] !== 'image';
-          })
-          let markets = notes.filter((note) => {
-            return note.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          if (!!image.length) {
-            if (!!doc.length) {
-              filteredNotes.push({...image[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
-            } else {
-              filteredNotes.push({...image[0], Marches: markets, SourceFile: []})
-            }
-          } else {
-            if (!!doc.length) {
-              filteredNotes.push({...doc[0], Marches: markets, SourceFile: [{url: doc[0].url}]})
-            }
-          }
+      notes.forEach((note) => {
+        if (note.marches[0] !== null) {
+          let tempMarketArray = note.marches.map(marche => ({ Nom: marche }))
+          note.marches = [...new Map(tempMarketArray.map(market => [market['Nom'], { Nom: market.Nom }])).values()]
         } else {
-
-          let markets = notes.filter((note) => {
-            return note.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          filteredNotes.push({...item, Marches: markets, SourceFile: []})
+          note.marches = []
         }
 
-        notes = notes.filter((note) => {
-          return note.id !== item.id
-        })
-      }
+        if (note.files[0] !== null) {
+          let tempFileArray = note.files.map(url => ({ url: url }))
+          note.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
+        } else {
+          note.files = []
+        }
 
-      console.debug(filteredNotes)
+        let tempEmArray = note.emetteur.map(em => ({ NomStructure: em }))
+        note.emetteur = [...new Map(tempEmArray.map(em => [em['NomStructure'], { NomStructure: em.NomStructure }])).values()]
+      })
 
-      return ctx.send(filteredNotes);
+      return ctx.send(notes);
 
     }
     ctx.badRequest('set conditions')
