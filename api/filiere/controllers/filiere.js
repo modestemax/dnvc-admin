@@ -8,16 +8,15 @@
 module.exports = {
 
   async reduced(ctx) {
-    const where = ctx.query._where
-    if (where) {
-      let query = `select f."id", f."Name" from filieres f order by f."Name" asc`
 
-      let filieres = await strapi.connections.default.raw(query)
+    let query = `select f."id", f."Name" from filieres f order by f."Name" asc`
 
-      filieres = filieres.rows
+    let filieres = await strapi.connections.default.raw(query)
 
-      return ctx.send(filieres)
-    }
+    filieres = filieres.rows
+
+    return ctx.send(filieres)
+
   }
 
 };
