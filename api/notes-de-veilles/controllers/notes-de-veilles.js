@@ -21,6 +21,7 @@ module.exports = {
                            left join notes_de_veilles__marches nm on n.id = nm.notes_de_veille_id
                            left join marches m on nm.march_id = m.id
                            left join themes_de_veilles tv on n.themes_de_veille = tv.id
+                           left join structure_de_veilles sv on a."Emetteur" = sv."id"
                            left join upload_file_morph ufm on n.id = ufm.related_id
                            left join upload_file uf on ufm.upload_file_id = uf.id
       `
@@ -35,7 +36,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by n.id`
 
 
       console.log('query is ', query)

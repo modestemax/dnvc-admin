@@ -40,61 +40,57 @@ module.exports = {
 
       let ressources = await strapi.connections.default.raw(query)
 
-      // ressources = ressources.rows
+      ressources = ressources.rows
 
-      const filteredRessources = []
+      // for (const item of ressources) {
+      //   if (item.mime !== null) {
+      //     const image = ressources.filter((ressource) => {
+      //       return ressource.id === item.id && ressource.mime.split('/')[0] === 'image';
+      //     })
+      //     const doc = ressources.filter((ressource) => {
+      //       return ressource.id === item.id && ressource.mime.split('/')[0] !== 'image';
+      //     })
+      //     let markets = ressources.filter((ressource) => {
+      //       return ressource.id === item.id;
+      //     })
+      //
+      //     markets = [...new Map(markets.map(market =>
+      //       [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+      //
+      //     if (markets[0] === undefined)
+      //       markets = [null]
+      //
+      //     if (image.length !== 0) {
+      //       if (doc.length !== 0) {
+      //         filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: [{url: doc[0].url}]})
+      //       } else {
+      //         filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: []})
+      //       }
+      //     } else {
+      //       if (doc.length !== 0) {
+      //         filteredRessources.push({...doc[0], marche: markets[0], SourceFile: [{url: doc[0].url}]})
+      //       }
+      //     }
+      //   } else {
+      //
+      //     let markets = ressources.filter((ressource) => {
+      //       return ressource.id === item.id;
+      //     })
+      //
+      //     markets = [...new Map(markets.map(market =>
+      //       [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
+      //
+      //     console.log(markets)
+      //
+      //     filteredRessources.push({...item, marche: markets[0], photo: { url: item.url }, SourceFile: []})
+      //   }
+      //
+      //   ressources = ressources.filter((ressource) => {
+      //     return ressource.id !== item.id
+      //   })
+      // }
 
-      for (const item of ressources) {
-        if (item.mime !== null) {
-          const image = ressources.filter((ressource) => {
-            return ressource.id === item.id && ressource.mime.split('/')[0] === 'image';
-          })
-          const doc = ressources.filter((ressource) => {
-            return ressource.id === item.id && ressource.mime.split('/')[0] !== 'image';
-          })
-          let markets = ressources.filter((ressource) => {
-            return ressource.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          if (markets[0] === undefined)
-            markets = [null]
-
-          if (image.length !== 0) {
-            if (doc.length !== 0) {
-              filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: [{url: doc[0].url}]})
-            } else {
-              filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: []})
-            }
-          } else {
-            if (doc.length !== 0) {
-              filteredRessources.push({...doc[0], marche: markets[0], SourceFile: [{url: doc[0].url}]})
-            }
-          }
-        } else {
-
-          let markets = ressources.filter((ressource) => {
-            return ressource.id === item.id;
-          })
-
-          markets = [...new Map(markets.map(market =>
-            [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-
-          console.log(markets)
-
-          filteredRessources.push({...item, marche: markets[0], photo: { url: item.url }, SourceFile: []})
-        }
-
-        ressources = ressources.filter((ressource) => {
-          return ressource.id !== item.id
-        })
-      }
-
-      console.debug(filteredRessources)
-
-      return ctx.send(filteredRessources);
+      return ctx.send(ressources);
     }
     ctx.badRequest('set conditions')
   }
