@@ -13,17 +13,17 @@ module.exports = {
 
     if (where) {
 
-      let select = `select r."id", r."titre", r."Type", r."resume", r."date", r."SourceUrl",
+      let select = `select r."id", r."titre", r."resume", r."date", r."SourceUrl",
                     array_agg(m."Nom") as marche,
                     array_agg(uf."url") as files,
                     array_agg(f."Name") as filieres
                     from ressources r
-                       left join ressources__filieres rf on r.id = rf.ressource_id
-                       left join filieres f on rf.filiere_id = f.id
-                       left join marches m on r.marche = m.id
-                       left join themes_de_veilles tv on r.themes_de_veille = tv.id
-                       left join upload_file_morph ufm on r.id = ufm.related_id
-                       left join upload_file uf on ufm.upload_file_id = uf.id
+                       left join ressources__filieres rf on r."id" = rf."ressource_id"
+                       left join filieres f on rf."filiere_id" = f."id"
+                       left join marches m on r."marche" = m."id"
+                       left join themes_de_veilles tv on r."themes_de_veille" = tv."id"
+                       left join upload_file_morph ufm on r."id" = ufm."related_id"
+                       left join upload_file uf on ufm."upload_file_id" = uf."id"
     `
 
       const fquery = ("filieres.Name" in where) ? ` f."Name" = '${where ["filieres.Name"]}' or f."Name" is null` : 'true'
