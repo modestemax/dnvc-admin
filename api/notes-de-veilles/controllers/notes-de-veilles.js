@@ -57,10 +57,11 @@ module.exports = {
           let tempFileArray = note.files.map(url => ({ url: url }))
           note.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
           note.files.forEach((file) => {
-            if (note.url.includes('.jpg') || note.url.includes('.jpeg')
-              || note.url.includes('.png') || note.url.includes('.gif')) {
-              note.files.splice(note.files.indexOf(file), 1);
-            }
+            if (typeof note.url !== 'undefined')
+              if (note.url.toLowerCase().includes('.jpg') || note.url.toLowerCase().includes('.jpeg')
+                || note.url.toLowerCase().includes('.png') || note.url.toLowerCase().includes('.gif')) {
+                note.files.splice(note.files.indexOf(file), 1);
+              }
           });
         } else {
           note.files = []
