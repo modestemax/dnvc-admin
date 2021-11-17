@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/marches/reduced",
+      "handler": "marches.reduced",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/marches/count",
       "handler": "marches.count",
       "config": {

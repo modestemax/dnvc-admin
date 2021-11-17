@@ -56,6 +56,12 @@ module.exports = {
         if (alerte.files[0] !== null) {
           let tempFileArray = alerte.files.map(url => ({ url: url }))
           alerte.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
+          alerte.files.forEach((file) => {
+            if (file.url.toLowerCase().includes('.jpg') || file.url.toLowerCase().includes('.jpeg')
+              || file.url.toLowerCase().includes('.png') || file.url.toLowerCase().includes('.gif')) {
+              alerte.files.splice(alerte.files.indexOf(file), 1);
+            }
+          });
         } else {
           alerte.files = []
         }

@@ -10,6 +10,14 @@
     },
     {
       "method": "GET",
+      "path": "/filieres/reduced",
+      "handler": "filiere.reduced",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/filieres/count",
       "handler": "filiere.count",
       "config": {
