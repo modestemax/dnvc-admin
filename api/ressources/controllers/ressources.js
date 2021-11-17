@@ -51,7 +51,7 @@ module.exports = {
           ressource.marche = [...new Map(tempMarketArray.map(market => [market['Nom'], { Nom: market.Nom }])).values()]
           ressource.marche = ressource.marche[0]
         } else {
-          ressource.marche = []
+          ressource.marche = null
         }
 
         if (ressource.filieres[0] !== null) {
