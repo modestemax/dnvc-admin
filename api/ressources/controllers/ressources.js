@@ -13,7 +13,10 @@ module.exports = {
 
     if (where) {
 
-      let select = `select r.*, m.Nom, uf.mime, uf.url
+      let select = `select r."id", r."titre", r."Type", r."resume", r."date", r."SourceUrl",
+                    array_agg(m."Nom") as marche,
+                    array_agg(uf."url") as files,
+                    array_agg(f."Name") as filieres
                     from ressources r
                        left join ressources__filieres rf on r.id = rf.ressource_id
                        left join filieres f on rf.filiere_id = f.id
@@ -33,7 +36,7 @@ module.exports = {
 
       const dlquery = ("date_lte" in where) ? `  ( '${where["date_lte"]}'  >="date")` : 'true'
 
-      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery})`
+      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by r.id`
 
 
       console.log('query is ', query)
@@ -42,53 +45,29 @@ module.exports = {
 
       ressources = ressources.rows
 
-      // for (const item of ressources) {
-      //   if (item.mime !== null) {
-      //     const image = ressources.filter((ressource) => {
-      //       return ressource.id === item.id && ressource.mime.split('/')[0] === 'image';
-      //     })
-      //     const doc = ressources.filter((ressource) => {
-      //       return ressource.id === item.id && ressource.mime.split('/')[0] !== 'image';
-      //     })
-      //     let markets = ressources.filter((ressource) => {
-      //       return ressource.id === item.id;
-      //     })
-      //
-      //     markets = [...new Map(markets.map(market =>
-      //       [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-      //
-      //     if (markets[0] === undefined)
-      //       markets = [null]
-      //
-      //     if (image.length !== 0) {
-      //       if (doc.length !== 0) {
-      //         filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: [{url: doc[0].url}]})
-      //       } else {
-      //         filteredRessources.push({...image[0], marche: markets[0], photo: { url: image[0].url }, SourceFile: []})
-      //       }
-      //     } else {
-      //       if (doc.length !== 0) {
-      //         filteredRessources.push({...doc[0], marche: markets[0], SourceFile: [{url: doc[0].url}]})
-      //       }
-      //     }
-      //   } else {
-      //
-      //     let markets = ressources.filter((ressource) => {
-      //       return ressource.id === item.id;
-      //     })
-      //
-      //     markets = [...new Map(markets.map(market =>
-      //       [market['Nom'], market.Nom !== null ? { Nom: market.Nom } : void 0])).values()]; // Took somewhere on internet but customised
-      //
-      //     console.log(markets)
-      //
-      //     filteredRessources.push({...item, marche: markets[0], photo: { url: item.url }, SourceFile: []})
-      //   }
-      //
-      //   ressources = ressources.filter((ressource) => {
-      //     return ressource.id !== item.id
-      //   })
-      // }
+      ressources.forEach((ressource) => {
+        if (ressource.marche[0] !== null) {
+          let tempMarketArray = ressource.marche.map(marche => ({ Nom: marche }))
+          ressource.marche = [...new Map(tempMarketArray.map(market => [market['Nom'], { Nom: market.Nom }])).values()]
+          ressource.marche = ressource.marche[0]
+        } else {
+          ressource.marche = []
+        }
+
+        if (ressource.filieres[0] !== null) {
+          let tempSectorArray = ressource.filieres.map(filiere => ({ Name: filiere }))
+          ressource.filieres = [...new Map(tempSectorArray.map(sector => [sector['Name'], { Name: sector.Name }])).values()]
+        } else {
+          ressource.filieres = []
+        }
+
+        if (ressource.files[0] !== null) {
+          let tempFileArray = ressource.files.map(url => ({ url: url }))
+          ressource.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
+        } else {
+          ressource.files = []
+        }
+      })
 
       return ctx.send(ressources);
     }

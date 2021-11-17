@@ -16,14 +16,14 @@ module.exports = {
                     array_agg(uf."url") as files,
                     array_agg(sv."NomStructure") as emetteur
                     from notes_de_veilles n
-                           left join notes_de_veilles__filieres nf on n.id = nf.notes_de_veille_id
-                           left join filieres f on nf.filiere_id = f.id
-                           left join notes_de_veilles__marches nm on n.id = nm.notes_de_veille_id
-                           left join marches m on nm.march_id = m.id
-                           left join themes_de_veilles tv on n.themes_de_veille = tv.id
-                           left join structure_de_veilles sv on a."Emetteur" = sv."id"
-                           left join upload_file_morph ufm on n.id = ufm.related_id
-                           left join upload_file uf on ufm.upload_file_id = uf.id
+                           left join notes_de_veilles__filieres nf on n."id" = nf."notes_de_veille_id"
+                           left join filieres f on nf."filiere_id" = f."id"
+                           left join notes_de_veilles__marches nm on n."id" = nm."notes_de_veille_id"
+                           left join marches m on nm."march_id" = m."id"
+                           left join themes_de_veilles tv on n."themes_de_veille" = tv."id"
+                           left join structure_de_veilles sv on n."Emetteur" = sv."id"
+                           left join upload_file_morph ufm on n."id" = ufm."related_id"
+                           left join upload_file uf on ufm."upload_file_id" = uf."id"
       `
 
       const fquery = ("Filieres.Name" in where) ? ` f."Name" = '${where ["Filieres.Name"]}' or f."Name" is null` : 'true'
