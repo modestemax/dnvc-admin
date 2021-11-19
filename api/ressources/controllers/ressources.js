@@ -36,7 +36,7 @@ module.exports = {
 
       const dlquery = ("date_lte" in where) ? `  ( '${where["date_lte"]}'  >="date")` : 'true'
 
-      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by r.id order by r.titre`
+      const query = `${select} where (ufm."related_type" = 'ressources') and (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by r."id" order by r."titre"`
 
 
       console.log('query is ', query)
@@ -61,9 +61,8 @@ module.exports = {
           ressource.filieres = []
         }
 
-        if (ressource.files[0] !== null) {
-          let tempFileArray = ressource.files.map(url => ({ url: url }))
-          ressource.files = [...new Map(tempFileArray.map(file => [file['url'], { url: file.url }])).values()]
+        if (ressource.files[0].length !== 0) {
+          ressource.files.map(url => ({ url: url }))
         } else {
           ressource.files = []
         }

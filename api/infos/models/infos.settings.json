@@ -1,0 +1,93 @@
+{
+  "kind": "singleType",
+  "collectionName": "infos",
+  "info": {
+    "name": "infos",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "about": {
+      "type": "richtext"
+    },
+    "reply_to": {
+      "type": "string"
+    },
+    "facebook": {
+      "type": "string"
+    },
+    "twitter": {
+      "type": "string"
+    },
+    "linkedin": {
+      "type": "string"
+    },
+    "youtube": {
+      "type": "string"
+    },
+    "admin_1": {
+      "type": "string"
+    },
+    "admin_2": {
+      "type": "string"
+    },
+    "admin_3": {
+      "type": "string"
+    },
+    "mot_du_ministre": {
+      "type": "richtext"
+    },
+    "equipe_de_veille": {
+      "type": "richtext"
+    },
+    "logo_mincommerce": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "home_text1": {
+      "type": "richtext"
+    },
+    "home_text2": {
+      "type": "richtext"
+    },
+    "home_picutre1": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "home_picture2": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "admin_4": {
+      "type": "string"
+    },
+    "admin_5": {
+      "type": "string"
+    }
+  }
+}
