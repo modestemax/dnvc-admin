@@ -36,7 +36,7 @@ module.exports = {
 
       const dlquery = ("date_lte" in where) ? `  ( '${where["date_lte"]}'  >="date")` : 'true'
 
-      const query = `${select} where (ufm."related_type" = 'ressources') and (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by r."id" order by r."titre"`
+      const query = `${select} where r."published_at" notnull and (ufm."related_type" = 'ressources') and (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by r."id" order by r."titre"`
 
 
       console.log('query is ', query)

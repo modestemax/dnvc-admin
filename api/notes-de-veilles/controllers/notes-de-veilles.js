@@ -36,7 +36,7 @@ module.exports = {
 
       const dlquery = ("DatePublication_lte" in where) ? `  ( '${where["DatePublication_lte"]}'  >="DatePublication")` : 'true'
 
-      const query = `${select} where (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by n.id`
+      const query = `${select} where n."published_at" notnull and (${fquery}) and (${mquery}) and (${tquery}) and (${dgquery}) and (${dlquery}) group by n.id`
 
 
       console.log('query is ', query)
