@@ -61,7 +61,7 @@
     "home_text2": {
       "type": "richtext"
     },
-    "home_picutre1": {
+    "home_picture1": {
       "model": "file",
       "via": "related",
       "allowedTypes": [

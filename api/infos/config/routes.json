@@ -9,6 +9,30 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/infos/image1",
+      "handler": "infos.getFirstImg",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/infos/image2",
+      "handler": "infos.getSecondImg",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/infos/logoMincom",
+      "handler": "infos.getLogoMincom",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "PUT",
       "path": "/infos",
       "handler": "infos.update",
