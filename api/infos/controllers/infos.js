@@ -1,4 +1,5 @@
 'use strict';
+const axios = require('axios');
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -17,7 +18,7 @@ module.exports = {
 
     homePictureSRC = homePictureSRC.rows[0].url
 
-    return ctx.send(homePictureSRC)
+    return ctx.send('<img src="'+ homePictureSRC +'">')
   },
 
   async getSecondImg(ctx) {
@@ -30,7 +31,7 @@ module.exports = {
 
     homePictureSRC = homePictureSRC.rows[0].url
 
-    return ctx.send(homePictureSRC)
+    return ctx.send('<img src="'+ homePictureSRC +'">')
   },
 
   async getLogoMincom(ctx) {
@@ -43,6 +44,6 @@ module.exports = {
 
     logo = logo.rows[0].url
 
-    return ctx.send(logo)
+    return ctx.send('<img src="'+ logo +'">')
   }
 };
