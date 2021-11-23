@@ -21,7 +21,7 @@ module.exports = {
     return ctx.send(`<!DOCTYPE html>
       <html>
          <head>
-            <meta http-equiv = "refresh" content = "0;url='${homePictureSRC}'"/>
+            <meta http-equiv = "refresh" content = "0;url=${homePictureSRC}"/>
          </head>
          <body>
          </body>
@@ -41,7 +41,7 @@ module.exports = {
     return ctx.send(`<!DOCTYPE html>
       <html>
          <head>
-            <meta http-equiv = "refresh" content = "0;url='${homePictureSRC}'"/>
+            <meta http-equiv = "refresh" content = "0;url=${homePictureSRC}"/>
          </head>
          <body>
          </body>
@@ -61,7 +61,7 @@ module.exports = {
     return ctx.send(`<!DOCTYPE html>
       <html>
          <head>
-            <meta http-equiv = "refresh" content = "0;url='${logo}'"/>
+            <meta http-equiv = "refresh" content = "0;url=${logo}"/>
          </head>
          <body>
          </body>
