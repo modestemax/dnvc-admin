@@ -18,7 +18,14 @@ module.exports = {
 
     homePictureSRC = homePictureSRC.rows[0].url
 
-    return ctx.send('<img src="'+ homePictureSRC +'">')
+    return ctx.send(`<!DOCTYPE html>
+      <html>
+         <head>
+            <meta http-equiv = "refresh" content = "0;url='${homePictureSRC}'"/>
+         </head>
+         <body>
+         </body>
+      </html>`)
   },
 
   async getSecondImg(ctx) {
@@ -31,7 +38,14 @@ module.exports = {
 
     homePictureSRC = homePictureSRC.rows[0].url
 
-    return ctx.send('<img src="'+ homePictureSRC +'">')
+    return ctx.send(`<!DOCTYPE html>
+      <html>
+         <head>
+            <meta http-equiv = "refresh" content = "0;url='${homePictureSRC}'"/>
+         </head>
+         <body>
+         </body>
+      </html>`)
   },
 
   async getLogoMincom(ctx) {
@@ -44,6 +58,13 @@ module.exports = {
 
     logo = logo.rows[0].url
 
-    return ctx.send('<img src="'+ logo +'">')
+    return ctx.send(`<!DOCTYPE html>
+      <html>
+         <head>
+            <meta http-equiv = "refresh" content = "0;url='${logo}'"/>
+         </head>
+         <body>
+         </body>
+      </html>`)
   }
 };

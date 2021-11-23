@@ -34,7 +34,5 @@ module.exports = {
     } catch (ex) {
       console.log('email error ', ex)
     }
-
-
   }
 };
