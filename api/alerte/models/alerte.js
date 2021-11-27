@@ -25,18 +25,13 @@ module.exports = {
         const {Marches, Filieres, themes_de_veille} = data
         const marcheIds = !Marches.length ? [null] : Marches.map(m => m.id)
         const filiereIds = !Filieres.length ? [null] : Filieres.map(m => m.id)
-
-        // const marcheIds = !Marches.length ? [0] : Marches.map(m => m.id)
-        // const filiereIds = !Filieres.length ? [0] : Filieres.map(m => m.id)
-
-
         const themeId = !themes_de_veille ? null : themes_de_veille.id
         const conditions = []
         marcheIds.forEach(march_id => filiereIds.forEach(filiere_id => {
           let cond = []
-          march_id ? cond.push('m.id=' + march_id) : cond.push('true')// cond.push('m.id is null')
-          filiere_id ? cond.push('f.id=' + filiere_id) : cond.push('true')//cond.push('f.id is null ')
-          themeId ? cond.push('t.id=' + themeId) : cond.push('true')// cond.push('t.id is null')
+          march_id ? cond.push('(m.id=' + march_id + ' OR m.id is null)') : cond.push('true')// cond.push('m.id is null')
+          filiere_id ? cond.push('(f.id=' + filiere_id + ' OR f.id is null)') : cond.push('true')//cond.push('f.id is null ')
+          themeId ? cond.push('(t.id=' + themeId + ' OR t.id is null)') : cond.push('true')// cond.push('t.id is null')
           if (march_id || filiere_id || themeId)
             conditions.push('(' + cond.join(' AND ') + ')')
         }))
@@ -59,7 +54,7 @@ module.exports = {
                  left join themes_de_veilles t on act."themes-de-veille_id" = t.id
                  inner join contacts c on c.id = cc.contact_id
 
-          WHERE ${conditions.join(' OR ') || false}
+          WHERE ${conditions.join(' OR ') || 'true'}
           order by cc.contact_id
         `
         console.log('query = ', query)
