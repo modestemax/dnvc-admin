@@ -9,7 +9,7 @@ module.exports = {
 
   async reduced(ctx) {
 
-    let select = `select c."id", c."Email", c."Etat" from contacts c`;
+    let select = `select c."id", c."Email", c."Etat" from contacts c where c."Email" notnull`;
 
     let contacts = await strapi.connections.default.raw(select);
 
